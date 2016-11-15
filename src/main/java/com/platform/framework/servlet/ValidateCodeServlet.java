@@ -4,13 +4,10 @@
 
 package com.platform.framework.servlet;
 
-import com.platform.modules.sys.utils.UserUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -22,6 +19,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Enumeration;
 import java.util.Random;
 
 /**
@@ -79,7 +77,7 @@ public class ValidateCodeServlet extends HttpServlet {
         response.setContentType("image/jpeg");
 
 		/*
-		 * 得到参数高，宽，都为数字时，则使用设置高宽，否则使用默认值
+         * 得到参数高，宽，都为数字时，则使用设置高宽，否则使用默认值
 		 */
         String width = request.getParameter("width");
         String height = request.getParameter("height");
@@ -102,10 +100,6 @@ public class ValidateCodeServlet extends HttpServlet {
         String s = createCharacter(g);
         request.getSession().setAttribute(VALIDATE_CODE, s);
 
-        if(request instanceof ShiroHttpServletRequest){
-            UserUtils.putCache(VALIDATE_CODE, s);
-        }
-        String code = (String) UserUtils.getCache(VALIDATE_CODE);
         g.dispose();
         OutputStream out = response.getOutputStream();
         ImageIO.write(image, "JPEG", out);

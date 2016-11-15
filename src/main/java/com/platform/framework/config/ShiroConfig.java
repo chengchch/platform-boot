@@ -8,7 +8,6 @@ import com.platform.framework.security.shiro.session.JedisSessionDAO;
 import com.platform.framework.security.shiro.session.SessionIdGen;
 import com.platform.framework.security.shiro.session.SessionManager;
 import org.apache.shiro.cas.CasFilter;
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -45,15 +44,14 @@ public class ShiroConfig {
         filterRegistration.setFilter(new DelegatingFilterProxy("shiroFilter"));
         //  该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理
         filterRegistration.addInitParameter("targetFilterLifecycle", "true");
-        filterRegistration.setEnabled(true);
         filterRegistration.addUrlPatterns("/*");// 可以自己灵活的定义很多，避免一些根本不需要被Shiro处理的请求被包含进来
         return filterRegistration;
     }
 
-    @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean getShiroFilter() {
+    @Bean
+    public ShiroFilterFactoryBean shiroFilter() {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-        factoryBean.setSecurityManager(getSecurityManager());
+        factoryBean.setSecurityManager(securityManager());
         //factoryBean.setLoginUrl("${cas.server.url}?service=${cas.project.url}/cas");
         factoryBean.setLoginUrl("/a/login");
         factoryBean.setSuccessUrl("/a?login");
@@ -64,8 +62,8 @@ public class ShiroConfig {
         filters.put("cas", casFilter);
         filters.put("authc", formAuthenticationFilter);
         KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
-        kickoutSessionControlFilter.setCacheManager(getCacheManager());
-        kickoutSessionControlFilter.setSessionManager(getSessionManager());
+        kickoutSessionControlFilter.setCacheManager(cacheManager());
+        kickoutSessionControlFilter.setSessionManager(sessionManager());
         kickoutSessionControlFilter.setKickoutAfter(false);
         kickoutSessionControlFilter.setMaxSession(2);
         kickoutSessionControlFilter.setKickoutUrl("/a/login?kickout=1");
@@ -73,7 +71,6 @@ public class ShiroConfig {
         factoryBean.setFilters(filters);
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/servlet/validateCodeServlet/**", "anon");
         filterChainDefinitionMap.put("/uploads/**", "anon");
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/api/**", "anon");
@@ -86,26 +83,26 @@ public class ShiroConfig {
         return factoryBean;
     }
 
-    @Bean(name = "securityManager")
-    public DefaultWebSecurityManager getSecurityManager() {
+    @Bean
+    public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(securityRealm);
-        securityManager.setCacheManager(getCacheManager());
-        securityManager.setSessionManager(getSessionManager());
+        securityManager.setCacheManager(cacheManager());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
-    @Bean(name = "cacheManager")
-    public JedisCacheManager getCacheManager() {
+    @Bean
+    public JedisCacheManager cacheManager() {
         JedisCacheManager cacheManager = new JedisCacheManager();
         cacheManager.setCacheKeyPrefix(redisConfig.getKeyPrefix() + "_shiro_cache_");
         return cacheManager;
     }
 
-    @Bean(name = "sessionManager")
-    public SessionManager getSessionManager() {
+    @Bean
+    public SessionManager sessionManager() {
         SessionManager sessionManager = new SessionManager();
-        sessionManager.setSessionDAO(getSessionDao());
+        sessionManager.setSessionDAO(sessionDao());
         sessionManager.setGlobalSessionTimeout(1800000);
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionValidationInterval(120000);
@@ -114,8 +111,8 @@ public class ShiroConfig {
         return sessionManager;
     }
 
-    @Bean(name = "sessionDao")
-    public JedisSessionDAO getSessionDao() {
+    @Bean
+    public JedisSessionDAO sessionDao() {
         JedisSessionDAO sessionDAO = new JedisSessionDAO();
         sessionDAO.setSessionIdGenerator(new SessionIdGen());
         sessionDAO.setSessionKeyPrefix(redisConfig.getKeyPrefix() + "_shiro_session_");
@@ -123,29 +120,20 @@ public class ShiroConfig {
     }
 
     /**
-     * 保证实现了Shiro内部lifecycle函数的bean执行
-     * 该方法导致属性注入值为null，然后莫名其妙的好了
-     */
-    @Bean(name = "lifecycleBeanPostProcessor")
-    public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
-
-    /**
      * AOP式方法级权限检查
      */
     @Bean
     @DependsOn("lifecycleBeanPostProcessor")
-    public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
         daap.setProxyTargetClass(true);
         return daap;
     }
 
     @Bean
-    public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor() {
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor() {
         AuthorizationAttributeSourceAdvisor aasa = new AuthorizationAttributeSourceAdvisor();
-        aasa.setSecurityManager(getSecurityManager());
+        aasa.setSecurityManager(securityManager());
         return aasa;
     }
 

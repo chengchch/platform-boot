@@ -7,18 +7,18 @@
     response.setStatus(500);
 
     // 获取异常类
-    Throwable ex = Exceptions.getThrowable(request);
-    if (ex != null) {
-        LoggerFactory.getLogger("500.jsp").error(ex.getMessage(), ex);
-    }
+//    Throwable ex = Exceptions.getThrowable(request);
+//    if (ex != null) {
+//        LoggerFactory.getLogger("500.jsp").error(ex.getMessage(), ex);
+//    }
 
     // 编译错误信息
     StringBuilder sb = new StringBuilder("错误信息：\n");
-    if (ex != null) {
-        sb.append(Exceptions.getStackTraceAsString(ex));
-    } else {
-        sb.append("未知错误.\n\n");
-    }
+//    if (ex != null) {
+//        sb.append(Exceptions.getStackTraceAsString(ex));
+//    } else {
+//        sb.append("未知错误.\n\n");
+//    }
 
     // 如果是异步请求或是手机端，则直接返回信息
     if (Servlets.isAjaxRequest(request)) {

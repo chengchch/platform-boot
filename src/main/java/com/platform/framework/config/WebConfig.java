@@ -5,13 +5,17 @@ import com.platform.framework.common.SpringContextHolder;
 import com.platform.framework.servlet.ValidateCodeServlet;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.hibernate.validator.HibernateValidator;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.Ordered;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -30,38 +34,38 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public ServletRegistrationBean validateCodeServlet() {
+    public ServletRegistrationBean validateCodeServletReg() {
         ServletRegistrationBean reg = new ServletRegistrationBean();
         reg.setServlet(new ValidateCodeServlet());
         reg.addUrlMappings("/servlet/validateCodeServlet");
         return reg;
     }
 
-    /**
-     * 保证实现了Shiro内部lifecycle函数的bean执行
-     * 该方法导致了属性注入为null
-     */
-    @Bean(name = "lifecycleBeanPostProcessor")
-    public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
-
-    @Bean(name = "validator")
-    public LocalValidatorFactoryBean getValidator() {
+    @Bean
+    public LocalValidatorFactoryBean validator() {
         LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
         validatorFactoryBean.setProviderClass(HibernateValidator.class);
-        validatorFactoryBean.setValidationMessageSource(getMessageSource());
+        validatorFactoryBean.setValidationMessageSource(messageSource());
         return validatorFactoryBean;
     }
 
-    @Bean(name = "messageSource")
-    public ReloadableResourceBundleMessageSource getMessageSource() {
+    @Bean
+    public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames("org/hibernate/validator/ValidationMessages");
         messageSource.setUseCodeAsDefaultMessage(false);
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(60);
         return messageSource;
+    }
+
+    /**
+     * 保证实现了Shiro内部lifecycle函数的bean执行
+     * 该方法导致属性注入值为null，然后莫名其妙的好了
+     */
+    @Bean
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
     }
 
 }

@@ -5,6 +5,8 @@
 package com.platform.framework.security;
 
 import com.platform.framework.security.SecurityRealm.Principal;
+import com.platform.framework.util.ObjectUtils;
+import com.platform.framework.util.Reflections;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
@@ -70,16 +72,15 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
             return true;
         }
 
-        Session session = subject.getSession();
         Principal principal = (Principal) subject.getPrincipal();
-        Serializable sessionId = session.getId();
-
         //TODO 同步控制
         Deque<Serializable> deque = cache.get(principal.getLoginName());
         if (deque == null) {
-            deque = new LinkedList<Serializable>();
-
+            deque = new LinkedList<>();
         }
+
+        Session session = subject.getSession();
+        Serializable sessionId = session.getId();
 
         //如果队列里没有此sessionId，且用户没有被踢出；放入队列
         if (!deque.contains(sessionId) && session.getAttribute("kickout") == null) {

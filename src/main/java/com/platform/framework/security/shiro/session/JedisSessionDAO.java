@@ -54,8 +54,8 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
                 return;
             }
             // 如果是视图文件，则不更新SESSION
-            if (StringUtils.startsWith(uri, SysConfigManager.getConfig("web.view.prefix"))
-                    && StringUtils.endsWith(uri, SysConfigManager.getConfig("web.view.suffix"))) {
+            if (StringUtils.startsWith(uri, SysConfigManager.getConfig("spring.mvc.view.prefix"))
+                    && StringUtils.endsWith(uri, SysConfigManager.getConfig("spring.mvc.view.suffix"))) {
                 return;
             }
             // 手动控制不更新SESSION
