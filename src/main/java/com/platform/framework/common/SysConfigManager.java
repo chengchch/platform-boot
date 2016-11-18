@@ -51,7 +51,7 @@ public class SysConfigManager {
      */
     public static String getSysRootPath() {
         if (sysRootPath == null) {
-            sysRootPath = System.getProperty("platform.root");
+            sysRootPath = System.getProperty("webapp.root");
         }
         if(sysRootPath == null){
             String path = Thread.currentThread().getContextClassLoader()

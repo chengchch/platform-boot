@@ -1,21 +1,19 @@
 package com.platform.framework.config;
 
 import com.opensymphony.sitemesh.webapp.SiteMeshFilter;
-import com.platform.framework.common.SpringContextHolder;
+import com.platform.framework.intercepter.LogInterceptor;
+import com.platform.framework.intercepter.MobileIntercepter;
 import com.platform.framework.servlet.ValidateCodeServlet;
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.hibernate.validator.HibernateValidator;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.Ordered;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -24,6 +22,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
+
+    @Value("${adminPath}")
+    private String adminPath;
+
+    @Autowired
+    private LogInterceptor logInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(logInterceptor)
+                .addPathPatterns(adminPath + "/**")
+                .excludePathPatterns(adminPath + "/")
+                .excludePathPatterns(adminPath + "/login")
+                .excludePathPatterns(adminPath + "/home");
+        registry.addInterceptor(new MobileIntercepter()).addPathPatterns(adminPath + "/**");
+        super.addInterceptors(registry);
+    }
 
     @Bean
     public FilterRegistrationBean siteMeshFilter(){
@@ -61,11 +76,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
      * 保证实现了Shiro内部lifecycle函数的bean执行
-     * 该方法导致属性注入值为null，然后莫名其妙的好了
+     * 该方法导致属性注入值为null
      */
-    @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
+//    @Bean
+//    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+//        return new LifecycleBeanPostProcessor();
+//    }
 
 }

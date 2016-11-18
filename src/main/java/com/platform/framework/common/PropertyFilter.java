@@ -4,11 +4,6 @@
 
 package com.platform.framework.common;
 
-import com.platform.framework.exception.CommonException;
-import com.platform.framework.util.DateUtils;
-import com.platform.framework.util.StringUtils;
-import ognl.OgnlOps;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -103,57 +98,6 @@ public class PropertyFilter {
      * 默认为:FieldRelationType.AND
      */
     private FieldRelationType fieldRelationType = FieldRelationType.AND;
-
-    public PropertyFilter() {
-        super();
-    }
-
-    public PropertyFilter(final String filterProperty, final String value) {
-        if (StringUtils.isEmpty(filterProperty)) {
-            throw new CommonException("filter属性" + filterProperty + "没有按规则编写,无法得到属性值类型.");
-        }
-
-        this.filterProperty = StringUtils.substringBefore(filterProperty, ":$");
-        String lastPart = StringUtils.substringAfter(filterProperty, ":$");
-        String matchTypeCode = StringUtils.substring(lastPart, 0, lastPart.length() - 1);
-        String propertyTypeCode = StringUtils.substring(lastPart, lastPart.length() - 1, lastPart.length());
-        try {
-            matchType = Enum.valueOf(MatchType.class, matchTypeCode);
-        } catch (RuntimeException e) {
-            throw new CommonException("filter属性" + filterProperty + "没有按规则编写,无法得到属性比较类型.");
-        }
-        try {
-            propertyClass = Enum.valueOf(PropertyType.class, propertyTypeCode).getValue();
-        } catch (RuntimeException e) {
-            throw new CommonException("filter属性" + filterProperty + "没有按规则编写,无法得到属性值类型.", e);
-        }
-        //判断转换类型，如果时间类型调用自己的方法
-        if (propertyClass == Date.class) {
-            if (value.contains(" ")) {
-                this.matchValue = DateUtils.parseDate(value);
-                if (matchTypeCode.equals("LE")) {
-                    this.matchValue = DateUtils.addDate((Date) this.matchValue, 1);
-                }
-            } else {
-                this.matchValue = DateUtils.parseDate(value);
-                if (matchTypeCode.equals("LE")) {
-                    this.matchValue = DateUtils.addDate((Date) this.matchValue, 1);
-                }
-            }
-        } else {
-            this.matchValue = OgnlOps.convertValue(value, propertyClass);
-        }
-    }
-
-    /**
-     * 专门用于内容权限部分构造查询对象
-     */
-    public PropertyFilter(final String filterProperty, final String value, final String type) {
-        this.filterProperty = filterProperty;
-        matchType = Enum.valueOf(MatchType.class, type);
-        propertyClass = Enum.valueOf(PropertyType.class, "S").getValue();
-        this.matchValue = OgnlOps.convertValue(value, propertyClass);
-    }
 
     /**
      * 获取比较方式.

@@ -4,20 +4,19 @@
 
 package com.platform.framework.intercepter;
 
-import java.text.SimpleDateFormat;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.platform.framework.util.DateUtils;
+import com.platform.modules.sys.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NamedThreadLocal;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.platform.modules.sys.service.LogService;
-import com.platform.framework.util.DateUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 
 /**
  * 日志拦截器
@@ -25,6 +24,7 @@ import com.platform.framework.util.DateUtils;
  * @author lufengcheng
  * @date 2015-11-10 下午2:20:25
  */
+@Component
 public class LogInterceptor implements HandlerInterceptor {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());

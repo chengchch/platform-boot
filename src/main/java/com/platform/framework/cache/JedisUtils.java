@@ -35,8 +35,6 @@ public class JedisUtils {
 
     private static JedisPool jedisPool = SpringContextHolder.getBean(JedisPool.class);
 
-    public static final String KEY_PREFIX = SysConfigManager.getConfig("redis.keyPrefix");
-
     /**
      * 获取缓存
      *

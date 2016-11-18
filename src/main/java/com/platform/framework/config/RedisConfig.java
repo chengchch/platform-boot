@@ -1,5 +1,6 @@
 package com.platform.framework.config;
 
+import com.platform.framework.util.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -11,11 +12,11 @@ import redis.clients.jedis.JedisPoolConfig;
  * @date 2016/11/10
  */
 @Component
-@ConfigurationProperties(prefix="spring.redis")
+@ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
 
     private String keyPrefix = "redis";
-    private String host =  "localhost";
+    private String host = "localhost";
     private int port = 6379;
     private int timeout;
     private String password;
@@ -109,13 +110,17 @@ public class RedisConfig {
     }
 
     @Bean(name = "jedisPool")
-    public JedisPool getJedisPool(){
+    public JedisPool getJedisPool() {
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxTotal(pool.getMaxActive());
         config.setMaxIdle(pool.getMaxIdle());
         config.setMinIdle(pool.getMinIdle());
         config.setMaxWaitMillis(pool.getMaxWait());
-        return new JedisPool(config, host, port, timeout);
+        if (StringUtils.isNoneBlank(password)) {
+            return new JedisPool(config, host, port, timeout, password);
+        } else {
+            return new JedisPool(config, host, port, timeout);
+        }
     }
 
 }
