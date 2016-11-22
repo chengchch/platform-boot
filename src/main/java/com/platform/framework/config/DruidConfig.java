@@ -262,7 +262,8 @@ public class DruidConfig {
         return new SqlSessionTemplate(sqlSessionFactory());
     }
 
-    @Bean
+    @Bean(name = "transactionManager")
+    @Primary
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
