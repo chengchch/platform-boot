@@ -54,12 +54,6 @@ public abstract class BaseFrontAction {
     protected String frontPath;
 
     /**
-     * 前端URL后缀
-     */
-    @Value("${urlSuffix}")
-    protected String urlSuffix;
-
-    /**
      * 验证Bean实例对象
      */
     @Autowired

@@ -26,7 +26,7 @@ import java.util.Map;
  * @author lufengcheng
  * @date 2016-01-15 09:56:22
  */
-@Component
+@Repository
 public class MybatisDao {
 
     @Autowired

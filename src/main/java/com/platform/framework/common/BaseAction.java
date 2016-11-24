@@ -63,12 +63,6 @@ public abstract class BaseAction<T> {
     protected String frontPath;
 
     /**
-     * 前端URL后缀
-     */
-    @Value("${urlSuffix}")
-    protected String urlSuffix;
-
-    /**
      * 数据模型驱动
      *
      * @param id ID

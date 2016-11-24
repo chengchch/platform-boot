@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.platform.framework.common.BaseAction;
 import com.platform.framework.common.BaseFrontAction;
 import com.platform.framework.common.Result;
+import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.exception.CommonException;
 import com.platform.modules.app.service.SystemService;
 import com.platform.modules.sys.bean.SysUser;
@@ -64,7 +65,8 @@ public class SystemAction extends BaseFrontAction {
     @RequestMapping(value = "/register")
     public String register(Integer a) throws Exception {
         try {
-            systemService.register();
+            String fileUploadPath = SysConfigManager.getFileUploadPath();
+            System.out.println(fileUploadPath);
         } catch (Exception e) {
             throw new CommonException(e);
         }

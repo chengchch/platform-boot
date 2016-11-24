@@ -17,12 +17,6 @@ public class Application extends SpringBootServletInitializer {
 		return application.sources(Application.class);
 	}
 
-	@Bean
-	public Object testBean(PlatformTransactionManager platformTransactionManager){
-		System.out.println(">>>>>>>>>>" + platformTransactionManager.getClass().getName());
-		return new Object();
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}

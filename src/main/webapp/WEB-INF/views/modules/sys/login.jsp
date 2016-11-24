@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <title>${fns:getConfig('productName')}登录</title>
+    <title>${fns:getProductName()}登录</title>
     <meta name="keywords" content="登录">
     <meta name="description" content="登录">
     <link rel="shortcut icon" href="${ctxStatic}/static/app/image/favicon.ico">

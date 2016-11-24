@@ -28,7 +28,7 @@ import java.util.Map.Entry;
 public class Servlets {
 
     // 静态文件后缀
-    private final static String[] staticFiles = StringUtils.split(SysConfigManager.getConfig("web.staticFile"), ",");
+    private final static String[] staticFiles = StringUtils.split(SysConfigManager.getStaticFileSuffix(), ",");
     // 动态映射URL后缀
     private final static String urlSuffix = SysConfigManager.getUrlSuffix();
 

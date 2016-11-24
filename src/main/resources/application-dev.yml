@@ -1,0 +1,98 @@
+# log
+logging:
+    file: D:\\logs\\platform-boot\\platform.log
+    level:
+        root: info
+        com.platform: info
+
+spring:
+    #JDBC Global Setting
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/platform?useUnicode=true&characterEncoding=utf-8
+        username: root
+        password: root
+        #DataSource Global Setting
+        initialSize: 1
+        minIdle: 1
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        removeAbandoned: true
+        removeAbandonedTimeout: 1800
+        logAbandoned: true
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        filters: stat
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+        useGlobalDataSourceStat: false
+        # druid StatVie
+        druidStatView:
+            allow: 127.0.0.1
+            deny:
+            loginUsername: admin
+            loginPassword: admin
+
+    #mvc
+    mvc:
+        view:
+            prefix: /WEB-INF/views/
+            suffix: .jsp
+
+    # REDIS (RedisProperties)
+    redis:
+        key-prefix: platform
+        host: localhost
+        port: 6379
+        password:
+        timeout: 0
+        pool:
+            max-active: 8
+            max-idle: 8
+            max-wait: -1
+            min-idle: 0
+
+# ELASTICSEARCH (ElasticsearchProperties)
+#spring.data.elasticsearch.cluster-name: elasticsearch
+#spring.data.elasticsearch.cluster-nodes: 
+#spring.data.elasticsearch.properties.*: 
+#spring.data.elasticsearch.repositories.enabled: true
+
+# JEST (Elasticsearch HTTP client) (JestProperties)
+#spring.elasticsearch.jest.uris: http://localhost:9200
+#spring.elasticsearch.jest.username: 
+#spring.elasticsearch.jest.password: 
+#spring.elasticsearch.jest.read-timeout: 3000
+#spring.elasticsearch.jest.connection-timeout: 3000
+#spring.elasticsearch.jest.proxy.host: 
+#spring.elasticsearch.jest.proxy.port: 
+
+#产品信息设置
+productName: 网站系统管理
+#文件上传配置节 空为系统默认配置
+fileUploadPath:
+#文件服务器地址
+fileAccessPath: /uploads
+#静态文件后缀
+staticFileSuffix: .css,.js,.png,.jpg,.gif,.jpeg,.bmp,.ico,.swf,.psd,.htc,.htm,.html,.crx,.xpi,.exe,.ipa,.apk
+#动态文件后缀
+urlSuffix: .html
+#管理基础路径, 需同步修改：web.xml
+adminPath: /a
+#前端基础路径
+frontPath: /f
+#踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
+userKickoutAfter: false
+#同一个帐号最大会话数 默认1
+userMaxSession: 2
+#是否不允许刷新主页，不允许情况下，刷新主页会导致重新登录
+notAllowRefreshIndex: false
+#单点登录CAS设置
+casServerUrl: http://127.0.0.1:8180/cas
+casProjectUrl: http://127.0.0.1:8080/platform

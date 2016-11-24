@@ -4,11 +4,12 @@
 package com.platform.framework.common;
 
 import com.google.common.collect.Maps;
-import com.platform.framework.util.FileUtils;
+import com.platform.framework.config.SystemProperties;
 import com.platform.framework.util.PropertiesLoader;
 import com.platform.framework.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.dozer.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.File;
@@ -23,26 +24,11 @@ import java.util.Map;
  */
 public class SysConfigManager {
 
-    private static Logger logger = LoggerFactory.getLogger(SysConfigManager.class);
-
-    private SysConfigManager() {}
-
-    private static class SysConfigManagerLoader {
-        private static final SysConfigManager instance = new SysConfigManager();
-    }
-
-    public static SysConfigManager getInstance() {
-        return SysConfigManagerLoader.instance;
-    }
+    //属性文件加载对象
+    private static PropertiesLoader loader = new PropertiesLoader("application-dev.yml");
 
     //保存全局属性值
     private static Map<String, String> map = Maps.newHashMap();
-
-    //属性文件加载对象
-    private static PropertiesLoader loader = new PropertiesLoader("application.properties");
-
-    //系统部署路径，其它功能模板调用该属性获取当前部署目录
-    private static String sysRootPath;
 
     /**
      * 获取当前系统部署目录
@@ -50,30 +36,14 @@ public class SysConfigManager {
      * @return 路径
      */
     public static String getSysRootPath() {
+        String sysRootPath = System.getProperty("webapp.root");
         if (sysRootPath == null) {
-            sysRootPath = System.getProperty("webapp.root");
-        }
-        if(sysRootPath == null){
-            String path = Thread.currentThread().getContextClassLoader()
-                    .getResource("").toString();
-            String temp = path.replaceFirst("file:/", "").replaceFirst(
-                    "WEB-INF/classes/", "");
+            String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
+            String temp = path.replaceFirst("file:/", "").replaceFirst("WEB-INF/classes/", "");
             String separator = System.getProperty("file.separator");
             sysRootPath = temp.replaceAll("/", separator + separator);
         }
         return sysRootPath;
-    }
-
-    /**
-     * 获取class路径
-     *
-     * @return 路径
-     */
-    public static String getClassPath() {
-        String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
-        String temp = path.replaceFirst("file:/", "");
-        String separator = System.getProperty("file.separator");
-        return temp.replaceAll("/", separator + separator);
     }
 
     /**
@@ -90,11 +60,12 @@ public class SysConfigManager {
 
     /**
      * 获取上传文件的根目录
+     *
      * @return path
      */
     public static String getFileUploadPath() {
-        String dir = getConfig("file.path.upload");
-        if (StringUtils.isBlank(dir)){
+        String dir = getConfig("fileUploadPath");
+        if (StringUtils.isBlank(dir)) {
             dir = getSysRootPath() + "/uploads/";
         }
         return dir;
@@ -102,11 +73,12 @@ public class SysConfigManager {
 
     /**
      * 获取文件服务器地址
+     *
      * @return url
      */
     public static String getFileAccessPath() {
-        String url = getConfig("file.path.access");
-        if (StringUtils.isBlank(url)){
+        String url = getConfig("fileAccessPath");
+        if (StringUtils.isBlank(url)) {
             url = "/";
         }
         return url;
@@ -117,7 +89,7 @@ public class SysConfigManager {
      */
     public static String getAdminPath() {
         String path = getConfig("adminPath");
-        if (StringUtils.isBlank(path)){
+        if (StringUtils.isBlank(path)) {
             path = "/";
         }
         return path;
@@ -128,10 +100,17 @@ public class SysConfigManager {
      */
     public static String getFrontPath() {
         String path = getConfig("frontPath");
-        if (StringUtils.isBlank(path)){
+        if (StringUtils.isBlank(path)) {
             path = "/";
         }
         return path;
+    }
+
+    /**
+     * 静态文件后缀
+     */
+    public static String getStaticFileSuffix() {
+        return getConfig("staticFileSuffix");
     }
 
     /**
@@ -142,26 +121,34 @@ public class SysConfigManager {
     }
 
     /**
+     * 获取产品名称
+     */
+    public static String getProductName() {
+        return getConfig("productName");
+    }
+
+    /**
      * 获取工程路径
+     *
      * @return 路径
      */
-    public static String getProjectPath(){
+    public static String getProjectPath() {
         // 如果配置了工程路径，则直接返回，否则自动获取。
         String projectPath = getConfig("projectPath");
-        if (StringUtils.isNotBlank(projectPath)){
+        if (StringUtils.isNotBlank(projectPath)) {
             return projectPath;
         }
         try {
             File file = new DefaultResourceLoader().getResource("").getFile();
-            if (file != null){
-                while(true){
+            if (file != null) {
+                while (true) {
                     File f = new File(file.getPath() + File.separator + "src" + File.separator + "main");
-                    if (f.exists()){
+                    if (f.exists()) {
                         break;
                     }
-                    if (file.getParentFile() != null){
+                    if (file.getParentFile() != null) {
                         file = file.getParentFile();
-                    }else{
+                    } else {
                         break;
                     }
                 }
@@ -173,25 +160,5 @@ public class SysConfigManager {
         return projectPath;
     }
 
-    /**
-     * 是否是演示模式，演示模式下不能修改用户、角色、密码、菜单、授权
-     */
-    public static boolean isDemoMode() {
-        String dm = getConfig("demoMode");
-        return "true".equals(dm) || "1".equals(dm);
-    }
-
-    /**
-     * 获取Key加载信息
-     */
-    public static boolean printKeyLoadMessage() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\r\n======================================================================\r\n");
-        sb.append("\r\n    欢迎使用 " + getConfig("productName") + " @"
-                + getConfig("copyrightYear") + "  - Powered By http://www.zsteel.cc\r\n");
-        sb.append("\r\n======================================================================\r\n");
-        logger.info(sb.toString());
-        return true;
-    }
 }
 

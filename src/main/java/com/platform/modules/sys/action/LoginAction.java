@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.Global;
 import com.platform.framework.common.SysConfigManager;
+import com.platform.framework.config.SystemProperties;
 import com.platform.framework.security.FormAuthenticationFilter;
 import com.platform.framework.security.SecurityRealm;
 import com.platform.framework.security.SecurityRealm.Principal;
@@ -51,6 +52,9 @@ public class LoginAction {
 
     @Value("${adminPath}")
     protected String adminPath;
+
+    @Autowired
+    private SystemProperties systemProperties;
 
     @Autowired
     private SessionDAO sessionDAO;
@@ -168,7 +172,7 @@ public class LoginAction {
         }
 
         // 如果已登录，再次访问主页，则退出原账号。
-        if (Global.TRUE.equals(SysConfigManager.getConfig("notAllowRefreshIndex"))) {
+        if (!systemProperties.isNotAllowRefreshIndex()) {
             String logined = CookieUtils.getCookie(request, "LOGINED");
             if (StringUtils.isBlank(logined) || Global.FALSE.equals(logined)) {
                 CookieUtils.setCookie(response, "LOGINED", Global.TRUE);

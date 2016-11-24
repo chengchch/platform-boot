@@ -12,13 +12,6 @@
     <uri>http://java.sun.com/jsp/jstl/functionss</uri>
 
     <function>
-        <description>获取文件服务器路径</description>
-        <name>getFileUrl</name>
-        <function-class>com.platform.framework.common.SysConfigManager</function-class>
-        <function-signature>java.lang.String getFileAccessPath()</function-signature>
-        <example>${fns:getFileUrl()}</example>
-    </function>
-    <function>
         <description>获取管理路径</description>
         <name>getAdminPath</name>
         <function-class>com.platform.framework.common.SysConfigManager</function-class>
@@ -40,11 +33,11 @@
         <example>${fns:getUrlSuffix()}</example>
     </function>
     <function>
-        <description>获取配置</description>
-        <name>getConfig</name>
+        <description>获取产品名称</description>
+        <name>getProductName</name>
         <function-class>com.platform.framework.common.SysConfigManager</function-class>
-        <function-signature>java.lang.String getConfig(java.lang.String)</function-signature>
-        <example>${fns:getPropertieConfig(key)}</example>
+        <function-signature>java.lang.String getProductName()</function-signature>
+        <example>${fns:getProductName()}</example>
     </function>
 
     <!-- UserUtils -->
