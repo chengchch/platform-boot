@@ -3,6 +3,7 @@ package com.platform.framework.config;
 import com.platform.framework.util.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -11,13 +12,13 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author lufengc
  * @date 2016/11/10
  */
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfig {
 
-    private String keyPrefix = "redis";
-    private String host = "localhost";
-    private int port = 6379;
+    private String keyPrefix;
+    private String host;
+    private int port;
     private int timeout;
     private String password;
     private Pool pool;

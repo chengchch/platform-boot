@@ -143,27 +143,6 @@ public abstract class BaseFrontAction {
     }
 
     /**
-     * 异常控制
-     *
-     * @param e       异常信息
-     * @param request HttpServletRequest
-     * @return ModelAndView
-     */
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ModelAndView handleException(Exception e, HttpServletRequest request) {
-        String description = "";
-        if (StringUtils.isNotBlank(e.getMessage())) {
-            description = SysConfigManager.getConfig(e.getMessage());
-        }
-        if (StringUtils.isEmpty(description)) {
-            description = e.getMessage();
-        }
-        Result result = new Result("INTERNAL_SERVER_ERROR", description);
-        return new ModelAndView().addObject(result);
-    }
-
-    /**
      * 参数绑定异常
      *
      * @return view

@@ -1,30 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <%@ page import="com.platform.framework.util.Servlets " %>
-<%@ page import="com.platform.framework.util.Exceptions " %>
-<%@ page import="org.slf4j.LoggerFactory" %>
 <%
     response.setStatus(500);
-
-    // 获取异常类
-//    Throwable ex = Exceptions.getThrowable(request);
-//    if (ex != null) {
-//        LoggerFactory.getLogger("500.jsp").error(ex.getMessage(), ex);
-//    }
-
-    // 编译错误信息
-    StringBuilder sb = new StringBuilder("错误信息：\n");
-//    if (ex != null) {
-//        sb.append(Exceptions.getStackTraceAsString(ex));
-//    } else {
-//        sb.append("未知错误.\n\n");
-//    }
-
     // 如果是异步请求或是手机端，则直接返回信息
     if (Servlets.isAjaxRequest(request)) {
-        out.print(sb);
+        out.print("服务器内部错误！");
     }
-
     // 输出异常信息页面
     else {
 %>
@@ -48,11 +30,9 @@
     <h1>500</h1>
     <h3>服务器内部错误！</h3>
     <div><a href="javascript:" onclick="history.go(-1);" class="btn">返回上一页</a></div>
-    <script>try{top.$.jBox.closeTip();}catch(e){}</script>
+    <script>try{top.$.jBox.closeTip();} catch (e) {}</script>
 </div>
 </body>
 </html>
-<%
-    }
-    out = pageContext.pushBody();
-%>
+
+<%}%>

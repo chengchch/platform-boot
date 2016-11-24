@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ import java.sql.SQLException;
  * @author lufengc
  * @date 2016/11/3
  */
-@Component
+@Configuration
 @ConfigurationProperties(prefix="spring.datasource")
 public class DruidConfig {
 
@@ -51,6 +52,8 @@ public class DruidConfig {
     private int maxPoolPreparedStatementPerConnectionSize;
     private String filters;
     private String connectionProperties;
+    private String useGlobalDataSourceStat;
+    private DruidStatView druidStatView;
 
     public String getUrl() {
         return url;
@@ -220,6 +223,61 @@ public class DruidConfig {
         this.connectionProperties = connectionProperties;
     }
 
+    public String getUseGlobalDataSourceStat() {
+        return useGlobalDataSourceStat;
+    }
+
+    public void setUseGlobalDataSourceStat(String useGlobalDataSourceStat) {
+        this.useGlobalDataSourceStat = useGlobalDataSourceStat;
+    }
+
+    public DruidStatView getDruidStatView() {
+        return druidStatView;
+    }
+
+    public void setDruidStatView(DruidStatView druidStatView) {
+        this.druidStatView = druidStatView;
+    }
+
+    public static class DruidStatView {
+        private String allow;
+        private String deny;
+        private String loginUsername;
+        private String loginPassword;
+
+        public String getAllow() {
+            return allow;
+        }
+
+        public void setAllow(String allow) {
+            this.allow = allow;
+        }
+
+        public String getDeny() {
+            return deny;
+        }
+
+        public void setDeny(String deny) {
+            this.deny = deny;
+        }
+
+        public String getLoginUsername() {
+            return loginUsername;
+        }
+
+        public void setLoginUsername(String loginUsername) {
+            this.loginUsername = loginUsername;
+        }
+
+        public String getLoginPassword() {
+            return loginPassword;
+        }
+
+        public void setLoginPassword(String loginPassword) {
+            this.loginPassword = loginPassword;
+        }
+    }
+
     @Bean
     @Primary
     public DataSource dataSource() {
@@ -229,7 +287,6 @@ public class DruidConfig {
         datasource.setPassword(password);
         datasource.setDriverClassName(driverClassName);
 
-        //configuration
         datasource.setInitialSize(initialSize);
         datasource.setMinIdle(minIdle);
         datasource.setMaxActive(maxActive);
@@ -262,8 +319,7 @@ public class DruidConfig {
         return new SqlSessionTemplate(sqlSessionFactory());
     }
 
-    @Bean(name = "transactionManager")
-    @Primary
+    @Bean
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
@@ -273,10 +329,10 @@ public class DruidConfig {
         ServletRegistrationBean reg = new ServletRegistrationBean();
         reg.setServlet(new StatViewServlet());
         reg.addUrlMappings("/druid/*");
-        reg.addInitParameter("allow", "127.0.0.1");
-        reg.addInitParameter("deny","");
-        reg.addInitParameter("loginUsername", "admin");
-        reg.addInitParameter("loginPassword", "admin");
+        reg.addInitParameter("allow", druidStatView.allow);
+        reg.addInitParameter("deny",druidStatView.deny);
+        reg.addInitParameter("loginUsername", druidStatView.loginUsername);
+        reg.addInitParameter("loginPassword", druidStatView.loginPassword);
         return reg;
     }
 

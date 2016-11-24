@@ -34,22 +34,15 @@ public class SystemServiceImpl extends BaseServiceImpl<SysUser> implements Syste
      */
     @Override
     public String save(SysUser object) throws Exception {
-
-
         return "";
     }
 
 
-    @Override
-    @Transactional("transactionManager")
+    @Transactional
     public void register() throws Exception{
         SysUser user = new SysUser();
         user.setRealName("测试");
-        mybatisDao.insert(user);
-        if (true) {
-            throw new RuntimeException("Roll me back!");
-        }
-        int i = 1/0;
-        System.out.println(i);
+        mybatisDao.insertBySql("INSERT INTO sys_user set username = \"111111\"");
+        throw new RuntimeException("Roll me back!");
     }
 }

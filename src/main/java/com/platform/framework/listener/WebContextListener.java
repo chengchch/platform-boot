@@ -16,7 +16,7 @@ import javax.servlet.ServletContext;
  * @author lufengcheng
  * @date 2016-01-15 09:56:22
  */
-public class WebContextListener extends ContextLoaderListener {
+/*public class WebContextListener extends ContextLoaderListener {
 
     @Override
     public WebApplicationContext initWebApplicationContext(ServletContext servletContext) {
@@ -25,4 +25,4 @@ public class WebContextListener extends ContextLoaderListener {
         }
         return super.initWebApplicationContext(servletContext);
     }
-}
+}*/
