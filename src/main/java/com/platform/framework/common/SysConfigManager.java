@@ -3,18 +3,12 @@
  */
 package com.platform.framework.common;
 
-import com.google.common.collect.Maps;
 import com.platform.framework.config.SystemProperties;
-import com.platform.framework.util.PropertiesLoader;
 import com.platform.framework.util.StringUtils;
-import org.dozer.inject.Inject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * 系统配置管理类,负责系统整个配置的读取、缓存、修改
@@ -24,11 +18,25 @@ import java.util.Map;
  */
 public class SysConfigManager {
 
-    //属性文件加载对象
-    private static PropertiesLoader loader = new PropertiesLoader("application-dev.yml");
+    private static SystemProperties systemProperties;
 
-    //保存全局属性值
-    private static Map<String, String> map = Maps.newHashMap();
+    public void setSystemProperties(SystemProperties systemProperties) {
+        SysConfigManager.systemProperties = systemProperties;
+    }
+
+    /**
+     * 获取mvc视图前缀
+     */
+    public static String getViewPrefix() {
+        return systemProperties.getViewProfix();
+    }
+
+    /**
+     * 获取mvc视图后缀
+     */
+    public static String getViewSuffix() {
+        return systemProperties.getViewSuffix();
+    }
 
     /**
      * 获取当前系统部署目录
@@ -47,39 +55,23 @@ public class SysConfigManager {
     }
 
     /**
-     * 获取配置
-     */
-    public static String getConfig(String key) {
-        String value = map.get(key);
-        if (value == null) {
-            value = loader.getProperty(key);
-            map.put(key, value != null ? value : StringUtils.EMPTY);
-        }
-        return value;
-    }
-
-    /**
      * 获取上传文件的根目录
-     *
-     * @return path
      */
     public static String getFileUploadPath() {
-        String dir = getConfig("fileUploadPath");
+        String dir = systemProperties.getFileUploadPath();
         if (StringUtils.isBlank(dir)) {
-            dir = getSysRootPath() + "/uploads/";
+            dir = getSysRootPath() + "/uploads";
         }
         return dir;
     }
 
     /**
      * 获取文件服务器地址
-     *
-     * @return url
      */
     public static String getFileAccessPath() {
-        String url = getConfig("fileAccessPath");
+        String url = systemProperties.getFileAccessPath();
         if (StringUtils.isBlank(url)) {
-            url = "/";
+            url = "/uploads";
         }
         return url;
     }
@@ -88,7 +80,7 @@ public class SysConfigManager {
      * 获取管理端根路径
      */
     public static String getAdminPath() {
-        String path = getConfig("adminPath");
+        String path = systemProperties.getAdminPath();
         if (StringUtils.isBlank(path)) {
             path = "/";
         }
@@ -99,7 +91,7 @@ public class SysConfigManager {
      * 获取前端根路径
      */
     public static String getFrontPath() {
-        String path = getConfig("frontPath");
+        String path = systemProperties.getFrontPath();
         if (StringUtils.isBlank(path)) {
             path = "/";
         }
@@ -110,34 +102,22 @@ public class SysConfigManager {
      * 静态文件后缀
      */
     public static String getStaticFileSuffix() {
-        return getConfig("staticFileSuffix");
+        return systemProperties.getStaticFileSuffix();
     }
 
     /**
      * 获取URL后缀
      */
     public static String getUrlSuffix() {
-        return getConfig("urlSuffix");
-    }
-
-    /**
-     * 获取产品名称
-     */
-    public static String getProductName() {
-        return getConfig("productName");
+        return systemProperties.getUrlSuffix();
     }
 
     /**
      * 获取工程路径
-     *
-     * @return 路径
      */
     public static String getProjectPath() {
         // 如果配置了工程路径，则直接返回，否则自动获取。
-        String projectPath = getConfig("projectPath");
-        if (StringUtils.isNotBlank(projectPath)) {
-            return projectPath;
-        }
+        String projectPath = "";
         try {
             File file = new DefaultResourceLoader().getResource("").getFile();
             if (file != null) {

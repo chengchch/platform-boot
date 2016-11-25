@@ -26,18 +26,18 @@
         <example>${fns:getFrontPath()}</example>
     </function>
     <function>
+        <description>获取文件服务器路径</description>
+        <name>getFileAccessPath</name>
+        <function-class>com.platform.framework.common.SysConfigManager</function-class>
+        <function-signature>java.lang.String getFileAccessPath()</function-signature>
+        <example>${fns:getFileAccessPath()}</example>
+    </function>
+    <function>
         <description>获取网站URL后缀</description>
         <name>getUrlSuffix</name>
         <function-class>com.platform.framework.common.SysConfigManager</function-class>
         <function-signature>java.lang.String getUrlSuffix()</function-signature>
         <example>${fns:getUrlSuffix()}</example>
-    </function>
-    <function>
-        <description>获取产品名称</description>
-        <name>getProductName</name>
-        <function-class>com.platform.framework.common.SysConfigManager</function-class>
-        <function-signature>java.lang.String getProductName()</function-signature>
-        <example>${fns:getProductName()}</example>
     </function>
 
     <!-- UserUtils -->

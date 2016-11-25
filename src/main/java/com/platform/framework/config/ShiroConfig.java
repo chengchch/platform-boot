@@ -65,8 +65,8 @@ public class ShiroConfig {
         KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
         kickoutSessionControlFilter.setCacheManager(cacheManager());
         kickoutSessionControlFilter.setSessionManager(sessionManager());
-        kickoutSessionControlFilter.setKickoutAfter(false);
-        kickoutSessionControlFilter.setMaxSession(2);
+        kickoutSessionControlFilter.setKickoutAfter(systemProperties.isUserKickoutAfter());
+        kickoutSessionControlFilter.setMaxSession(systemProperties.getUserMaxSession());
         kickoutSessionControlFilter.setKickoutUrl("/a/login?kickout=1");
         filters.put("kickout", kickoutSessionControlFilter);
         factoryBean.setFilters(filters);

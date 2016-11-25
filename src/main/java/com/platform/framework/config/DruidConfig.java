@@ -53,7 +53,7 @@ public class DruidConfig {
     private String filters;
     private String connectionProperties;
     private String useGlobalDataSourceStat;
-    private DruidStatView druidStatView;
+    private StatView statView;
 
     public String getUrl() {
         return url;
@@ -231,15 +231,15 @@ public class DruidConfig {
         this.useGlobalDataSourceStat = useGlobalDataSourceStat;
     }
 
-    public DruidStatView getDruidStatView() {
-        return druidStatView;
+    public StatView getStatView() {
+        return statView;
     }
 
-    public void setDruidStatView(DruidStatView druidStatView) {
-        this.druidStatView = druidStatView;
+    public void setStatView(StatView statView) {
+        this.statView = statView;
     }
 
-    public static class DruidStatView {
+    public static class StatView {
         private String allow;
         private String deny;
         private String loginUsername;
@@ -329,10 +329,10 @@ public class DruidConfig {
         ServletRegistrationBean reg = new ServletRegistrationBean();
         reg.setServlet(new StatViewServlet());
         reg.addUrlMappings("/druid/*");
-        reg.addInitParameter("allow", druidStatView.allow);
-        reg.addInitParameter("deny",druidStatView.deny);
-        reg.addInitParameter("loginUsername", druidStatView.loginUsername);
-        reg.addInitParameter("loginPassword", druidStatView.loginPassword);
+        reg.addInitParameter("allow", statView.allow);
+        reg.addInitParameter("deny",statView.deny);
+        reg.addInitParameter("loginUsername", statView.loginUsername);
+        reg.addInitParameter("loginPassword", statView.loginPassword);
         return reg;
     }
 

@@ -4,8 +4,8 @@
 package com.platform.framework.security.shiro.session;
 
 import com.google.common.collect.Sets;
-import com.platform.framework.common.Global;
 import com.platform.framework.cache.JedisUtils;
+import com.platform.framework.common.Global;
 import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.util.DateUtils;
 import com.platform.framework.util.Servlets;
@@ -54,8 +54,8 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
                 return;
             }
             // 如果是视图文件，则不更新SESSION
-            if (StringUtils.startsWith(uri, SysConfigManager.getConfig("spring.mvc.view.prefix"))
-                    && StringUtils.endsWith(uri, SysConfigManager.getConfig("spring.mvc.view.suffix"))) {
+            if (StringUtils.startsWith(uri, SysConfigManager.getViewPrefix())
+                    && StringUtils.endsWith(uri, SysConfigManager.getViewSuffix())) {
                 return;
             }
             // 手动控制不更新SESSION

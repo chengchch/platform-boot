@@ -24,7 +24,7 @@
                         <div class="dropdown profile-element">
                             <span><img alt="image" class="img-circle" style="height:64px;width:64px;"
                                        src="<c:if test="${empty fns:getUser().photo}">${ctxStatic}/static/app/image/default.jpg</c:if>
-                                       <c:if test="${not empty fns:getUser().photo}">${fns:getFileUrl()}/${fns:getUser().photo}</c:if>" /></span>
+                                       <c:if test="${not empty fns:getUser().photo}">${fns:getFileAccessPath()}/${fns:getUser().photo}</c:if>" /></span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                     <span class="block m-t-xs"><strong class="font-bold">${fns:getUser().username}</strong></span>

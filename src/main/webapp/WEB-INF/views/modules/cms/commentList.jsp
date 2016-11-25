@@ -67,7 +67,7 @@
                         <td><a href="#" onclick="$('#c_${bean.id}').toggle()">
                                 ${fns:abbr(fns:replaceHtml(bean.content),40)}</a>
                         </td>
-                        <td><a href="${pageContext.request.contextPath}${fns:getFrontPath()}/view-${bean.categoryId}-${bean.contentId}${fns:getUrlSuffix()}"
+                        <td><a href="${pageContext.request.contextPath}${fns:getFrontPath()}/view-${bean.categoryId}-${bean.contentId}.html"
                                target="_blank">${fns:abbr(bean.title,40)}</a></td>
                         <td>${bean.name}</td>
                         <td>${bean.ip}</td>

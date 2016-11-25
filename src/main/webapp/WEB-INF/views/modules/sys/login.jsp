@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <!DOCTYPE html>
 <html>
@@ -7,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <title>${fns:getProductName()}登录</title>
+    <title>登录</title>
     <meta name="keywords" content="登录">
     <meta name="description" content="登录">
     <link rel="shortcut icon" href="${ctxStatic}/static/app/image/favicon.ico">

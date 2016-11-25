@@ -33,7 +33,7 @@ spring:
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
         useGlobalDataSourceStat: false
         # druid StatVie
-        druidStatView:
+        statView:
             allow: 127.0.0.1
             deny:
             loginUsername: admin
@@ -58,32 +58,15 @@ spring:
             max-wait: -1
             min-idle: 0
 
-# ELASTICSEARCH (ElasticsearchProperties)
-#spring.data.elasticsearch.cluster-name: elasticsearch
-#spring.data.elasticsearch.cluster-nodes: 
-#spring.data.elasticsearch.properties.*: 
-#spring.data.elasticsearch.repositories.enabled: true
-
-# JEST (Elasticsearch HTTP client) (JestProperties)
-#spring.elasticsearch.jest.uris: http://localhost:9200
-#spring.elasticsearch.jest.username: 
-#spring.elasticsearch.jest.password: 
-#spring.elasticsearch.jest.read-timeout: 3000
-#spring.elasticsearch.jest.connection-timeout: 3000
-#spring.elasticsearch.jest.proxy.host: 
-#spring.elasticsearch.jest.proxy.port: 
-
-#产品信息设置
-productName: 网站系统管理
-#文件上传配置节 空为系统默认配置
-fileUploadPath:
+#文件上传路径 空为系统默认配置
+fileUploadPath: /uploads
 #文件服务器地址
 fileAccessPath: /uploads
 #静态文件后缀
 staticFileSuffix: .css,.js,.png,.jpg,.gif,.jpeg,.bmp,.ico,.swf,.psd,.htc,.htm,.html,.crx,.xpi,.exe,.ipa,.apk
 #动态文件后缀
 urlSuffix: .html
-#管理基础路径, 需同步修改：web.xml
+#管理基础路径
 adminPath: /a
 #前端基础路径
 frontPath: /f

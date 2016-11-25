@@ -74,7 +74,7 @@
 			<div class="controls">
 				<form:hidden path="image" htmlEscape="false" maxlength="255"/>
                 <img src="<c:if test="${empty cmsCategory.image}">${ctxStatic}/static/app/image/default.jpg</c:if>
-                <c:if test="${not empty cmsCategory.image}">${fns:getFileUrl()}/${cmsCategory.image}</c:if>"
+                <c:if test="${not empty cmsCategory.image}">${fns:getFileAccessPath()}/${cmsCategory.image}</c:if>"
                      id="thumbImg" style="max-width: 100px; max-height: 100px; line-height: 20px;"/>
                 <input type="file" class="default" name="upload" onchange="imgUpload(this.value);" id="fileId" style="border: none; padding: 0;"/>
             </div>

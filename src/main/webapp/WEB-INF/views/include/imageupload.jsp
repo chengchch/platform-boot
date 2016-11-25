@@ -14,7 +14,7 @@
                 $("#image_id").val(data);
                 var $thumbImg = $("#thumbImg");
                 $thumbImg.show();
-                $thumbImg.attr("src", "${fns:getFileUrl()}/" + data);
+                $thumbImg.attr("src", "${fns:getFileAccessPath()}/" + data);
             },
             error: function(data,responseText){
                 layer.alert('上传失败，请重新上传！');

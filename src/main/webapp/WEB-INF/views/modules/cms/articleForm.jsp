@@ -111,7 +111,7 @@
             <input type="hidden" id="image" name="image" value="${cmsArticle.image}"/>
             <div>
                 <img src="<c:if test="${empty cmsArticle.image}">${ctxStatic}/static/app/image/default.jpg</c:if>
-                    <c:if test="${not empty cmsArticle.image}">${fns:getFileUrl()}/${cmsArticle.image}</c:if>"
+                    <c:if test="${not empty cmsArticle.image}">${fns:getFileAccessPath()}/${cmsArticle.image}</c:if>"
                      id="thumbImg" style="max-width: 100px; max-height: 100px; line-height: 20px;"/>
             </div>
             <input type="file" class="default" name="upload" onchange="imgUpload(this.value);" id="fileId"

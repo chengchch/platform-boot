@@ -1,5 +1,6 @@
 package com.platform.framework.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,25 +12,37 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties
 public class SystemProperties {
 
-    private String productName;
+    @Value("${spring.mvc.view.prefix}")
+    private String viewProfix;
+    @Value("${spring.mvc.view.suffix}")
+    private String viewSuffix;
+
     private String fileUploadPath;
     private String fileAccessPath;
     private String staticFileSuffix;
     private String urlSuffix;
     private String adminPath;
     private String frontPath;
-    private String userKickoutAfter;
-    private String userMaxSession;
+    private boolean userKickoutAfter;
+    private int userMaxSession;
     private boolean notAllowRefreshIndex;
     private String casServerUrl;
     private String casProjectUrl;
 
-    public String getProductName() {
-        return productName;
+    public String getViewProfix() {
+        return viewProfix;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setViewProfix(String viewProfix) {
+        this.viewProfix = viewProfix;
+    }
+
+    public String getViewSuffix() {
+        return viewSuffix;
+    }
+
+    public void setViewSuffix(String viewSuffix) {
+        this.viewSuffix = viewSuffix;
     }
 
     public String getFileUploadPath() {
@@ -80,19 +93,19 @@ public class SystemProperties {
         this.frontPath = frontPath;
     }
 
-    public String getUserKickoutAfter() {
+    public boolean isUserKickoutAfter() {
         return userKickoutAfter;
     }
 
-    public void setUserKickoutAfter(String userKickoutAfter) {
+    public void setUserKickoutAfter(boolean userKickoutAfter) {
         this.userKickoutAfter = userKickoutAfter;
     }
 
-    public String getUserMaxSession() {
+    public int getUserMaxSession() {
         return userMaxSession;
     }
 
-    public void setUserMaxSession(String userMaxSession) {
+    public void setUserMaxSession(int userMaxSession) {
         this.userMaxSession = userMaxSession;
     }
 

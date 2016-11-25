@@ -172,7 +172,7 @@ public class LoginAction {
         }
 
         // 如果已登录，再次访问主页，则退出原账号。
-        if (!systemProperties.isNotAllowRefreshIndex()) {
+        if (systemProperties.isNotAllowRefreshIndex()) {
             String logined = CookieUtils.getCookie(request, "LOGINED");
             if (StringUtils.isBlank(logined) || Global.FALSE.equals(logined)) {
                 CookieUtils.setCookie(response, "LOGINED", Global.TRUE);

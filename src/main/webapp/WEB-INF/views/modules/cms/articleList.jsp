@@ -81,7 +81,7 @@
                         <td>${bean.keywords}</td>
                         <td><fmt:formatDate value="${bean.updateTime}" type="both"/></td>
                         <td>
-                            <a href="${pageContext.request.contextPath}${fns:getFrontPath()}/view-${bean.categoryId}-${bean.id}${fns:getUrlSuffix()}"
+                            <a href="${pageContext.request.contextPath}${fns:getFrontPath()}/view-${bean.categoryId}-${bean.id}.html"
                                target="_blank"><i class="fa fa-street-view"></i>访问</a>
                             <shiro:hasPermission name="sys:user:edit">
                                 <a href="${ctx}/cms/article/form?id=${bean.id}"><i class="fa fa-edit"></i>修改</a>

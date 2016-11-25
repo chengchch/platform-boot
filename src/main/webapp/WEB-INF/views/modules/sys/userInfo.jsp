@@ -135,7 +135,7 @@
                             <div class="col-sm-4" style="margin-bottom: 10px;">
                                 <img alt="image" class="img-responsive"
                                      src="<c:if test="${empty sysUser.photo}">${ctxStatic}/static/app/image/default.jpg</c:if>
-                                     <c:if test="${not empty sysUser.photo}">${fns:getFileUrl()}/${sysUser.photo}</c:if>" />
+                                     <c:if test="${not empty sysUser.photo}">${fns:getFileAccessPath()}/${sysUser.photo}</c:if>" />
                             </div>
                             <div class="col-sm-8">
                                 <div class="table-responsive">

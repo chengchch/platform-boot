@@ -1,6 +1,7 @@
 package com.platform.framework.config;
 
 import com.opensymphony.sitemesh.webapp.SiteMeshFilter;
+import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.intercepter.LogInterceptor;
 import com.platform.framework.intercepter.MobileIntercepter;
 import com.platform.framework.servlet.ValidateCodeServlet;
@@ -29,6 +30,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private LogInterceptor logInterceptor;
 
+    @Autowired
+    private SystemProperties systemProperties;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(logInterceptor)
@@ -41,7 +45,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public FilterRegistrationBean siteMeshFilter(){
+    public FilterRegistrationBean siteMeshFilter() {
         FilterRegistrationBean fitler = new FilterRegistrationBean();
         fitler.setFilter(new SiteMeshFilter());
         fitler.addUrlPatterns("/a/*", "/f/*");
@@ -72,6 +76,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(60);
         return messageSource;
+    }
+
+    @Bean
+    public SysConfigManager sysConfigManager() {
+        SysConfigManager sysConfigManager = new SysConfigManager();
+        sysConfigManager.setSystemProperties(systemProperties);
+        return sysConfigManager;
     }
 
     /**
