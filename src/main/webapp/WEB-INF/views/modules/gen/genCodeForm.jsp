@@ -104,7 +104,7 @@
             <div class="control-group">
                 <label class="control-label">生成选项:</label>
                 <div class="controls m-t-xs">
-                    <form:checkbox path="replaceFile" label="是否替换现有文件" class="i-checks required"/>
+                    <form:checkbox path="replaceFile" label="是否替换现有文件" class="i-checks"/>
                 </div>
             </div>
         </fieldset>
