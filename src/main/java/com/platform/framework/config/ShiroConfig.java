@@ -53,13 +53,13 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilter() {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         factoryBean.setSecurityManager(securityManager());
-        //factoryBean.setLoginUrl("${cas.server.url}?service=${cas.project.url}/cas");
-        factoryBean.setLoginUrl("/a/login");
-        factoryBean.setSuccessUrl("/a?login");
+        //factoryBean.setLoginUrl(systemProperties.getCasServerUrl() + "?service=" + systemProperties.getCasProjectUrl() + "/cas");
+        factoryBean.setLoginUrl(systemProperties.getAdminPath() + "/login");
+        factoryBean.setSuccessUrl(systemProperties.getAdminPath() + "?login");
 
         Map<String, Filter> filters = new LinkedHashMap<>();
         CasFilter casFilter = new CasFilter();
-        casFilter.setFailureUrl("/a/login");
+        casFilter.setFailureUrl(systemProperties.getAdminPath() + "/login");
         filters.put("cas", casFilter);
         filters.put("authc", formAuthenticationFilter);
         KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
@@ -67,7 +67,7 @@ public class ShiroConfig {
         kickoutSessionControlFilter.setSessionManager(sessionManager());
         kickoutSessionControlFilter.setKickoutAfter(systemProperties.isUserKickoutAfter());
         kickoutSessionControlFilter.setMaxSession(systemProperties.getUserMaxSession());
-        kickoutSessionControlFilter.setKickoutUrl("/a/login?kickout=1");
+        kickoutSessionControlFilter.setKickoutUrl(systemProperties.getAdminPath() + "/login?kickout=1");
         filters.put("kickout", kickoutSessionControlFilter);
         factoryBean.setFilters(filters);
 
@@ -76,10 +76,10 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/api/**", "anon");
         filterChainDefinitionMap.put("/f/**", "anon");
-        filterChainDefinitionMap.put("/a/login", "authc");
-        filterChainDefinitionMap.put("/a/logout", "logout");
-        filterChainDefinitionMap.put("/a/**", "kickout,user");
-        filterChainDefinitionMap.put("/a/cas", "cas");
+        filterChainDefinitionMap.put(systemProperties.getAdminPath() + "/login", "authc");
+        //filterChainDefinitionMap.put(systemProperties.getAdminPath() + "/logout", "logout");
+        filterChainDefinitionMap.put(systemProperties.getAdminPath() + "/**", "kickout,user");
+        filterChainDefinitionMap.put(systemProperties.getAdminPath() + "/cas", "cas");
         factoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return factoryBean;
     }

@@ -1,6 +1,6 @@
 # log
 logging:
-    file: D:\\logs\\platform-boot\\platform.log
+    file: C:\\logs\\platform-boot\\platform.log
     level:
         root: info
         com.platform: info
@@ -78,4 +78,4 @@ userMaxSession: 2
 notAllowRefreshIndex: false
 #单点登录CAS设置
 casServerUrl: http://127.0.0.1:8180/cas
-casProjectUrl: http://127.0.0.1:8080/platform
+casProjectUrl: http://127.0.0.1:8080/a
