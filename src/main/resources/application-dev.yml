@@ -1,6 +1,6 @@
 # log
 logging:
-    file: C:\\logs\\platform-boot\\platform.log
+    file: ./logs/platform.log
     level:
         root: info
         com.platform: info
