@@ -60,7 +60,7 @@ public class SysConfigManager {
     public static String getFileUploadPath() {
         String dir = systemProperties.getFileUploadPath();
         if (StringUtils.isBlank(dir)) {
-            dir = getSysRootPath() + "/uploads";
+            dir = getSysRootPath() + "/uploads/";
         }
         return dir;
     }
@@ -71,7 +71,7 @@ public class SysConfigManager {
     public static String getFileAccessPath() {
         String url = systemProperties.getFileAccessPath();
         if (StringUtils.isBlank(url)) {
-            url = "/uploads";
+            url = "/uploads/";
         }
         return url;
     }

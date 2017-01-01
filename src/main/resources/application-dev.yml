@@ -59,9 +59,9 @@ spring:
             min-idle: 0
 
 #文件上传路径 空为系统默认配置
-fileUploadPath: /uploads
+fileUploadPath: /uploads/
 #文件服务器地址
-fileAccessPath: /uploads
+fileAccessPath: /uploads/
 #静态文件后缀
 staticFileSuffix: .css,.js,.png,.jpg,.gif,.jpeg,.bmp,.ico,.swf,.psd,.htc,.htm,.html,.crx,.xpi,.exe,.ipa,.apk
 #动态文件后缀
