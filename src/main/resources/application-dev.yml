@@ -59,7 +59,7 @@ spring:
             min-idle: 0
 
 #文件上传路径 空为系统默认配置
-fileUploadPath: /uploads/
+fileUploadPath: /Users/fengcheng/IdeaProjects/platform-boot/src/main/webapp/uploads/
 #文件服务器地址
 fileAccessPath: /uploads/
 #静态文件后缀
