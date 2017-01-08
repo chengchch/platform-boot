@@ -58,6 +58,16 @@ spring:
             max-wait: -1
             min-idle: 0
 
+#dubbo
+dubbo:
+    application-name: platform
+    annotation-package: com.platforms.modules
+    protocol-name: dubbo
+    protocol-port: 20880
+    registry-protocol: zookeeper
+    registry-address: 127.0.0.1:2181
+
+
 #文件上传路径 空为系统默认配置
 fileUploadPath: /Users/fengcheng/IdeaProjects/platform-boot/src/main/webapp/uploads/
 #文件服务器地址
