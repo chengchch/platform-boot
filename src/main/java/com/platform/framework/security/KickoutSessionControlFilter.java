@@ -5,8 +5,6 @@
 package com.platform.framework.security;
 
 import com.platform.framework.security.SecurityRealm.Principal;
-import com.platform.framework.util.ObjectUtils;
-import com.platform.framework.util.Reflections;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;

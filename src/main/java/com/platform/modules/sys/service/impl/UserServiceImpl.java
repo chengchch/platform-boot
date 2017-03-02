@@ -104,6 +104,28 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
     }
 
     /**
+     * 更新用户状态
+     */
+    @Override
+    public int updateStatus(String ids, SysUser user) {
+        mybatisDao.updateByConditions(SysUser.class, "status=" + user.getStatus(), "id in(" + ids + ")");
+        return 1;
+    }
+
+    /**
+     * 密码初始化
+     * @param ids
+     * @param password
+     * @return
+     */
+    @Override
+    public int initPassword(String ids, String password) {
+        String entryptPassword = Encodes.encryptPassword(password);
+        mybatisDao.updateByConditions(SysUser.class, "password='" + entryptPassword + "'", "id in(" + ids + ")");
+        return 1;
+    }
+
+    /**
      * 保存用户信息
      *
      * @param object SysUser
@@ -116,7 +138,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
             id = object.getId().toString();
             // 如果新密码为空，则不更换密码
             if (StringUtils.isNotBlank(object.getPassword())) {
-                object.setPassword(Encodes.entryptPassword(object.getPassword()));
+                object.setPassword(Encodes.encryptPassword(object.getPassword()));
             } else {
                 object.setPassword(null);
             }
@@ -125,7 +147,11 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
             String deleteSql = "delete from sys_user_role where user_id =" + id;
             mybatisDao.deleteBySql(deleteSql, null);
         } else {
-            object.setPassword(Encodes.entryptPassword(object.getPassword()));
+            if (StringUtils.isNotBlank(object.getPassword())) {
+                object.setPassword(Encodes.encryptPassword(object.getPassword()));
+            }else{
+                object.setPassword(Encodes.encryptPassword("123456"));
+            }
             id = mybatisDao.insert(object);
         }
         //更新用户角色关联

@@ -8,7 +8,6 @@ import com.platform.framework.common.BaseEntity;
 import com.platform.framework.util.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import java.util.Date;
 import java.util.Map;
 
 /**

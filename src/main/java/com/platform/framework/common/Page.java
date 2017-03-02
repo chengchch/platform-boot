@@ -4,9 +4,9 @@
 
 package com.platform.framework.common;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.platform.framework.util.CookieUtils;
 import com.platform.framework.util.StringUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

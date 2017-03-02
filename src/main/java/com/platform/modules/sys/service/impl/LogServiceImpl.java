@@ -4,8 +4,6 @@
 
 package com.platform.modules.sys.service.impl;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
@@ -16,6 +14,8 @@ import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.service.LogService;
 import com.platform.modules.sys.utils.UserUtils;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

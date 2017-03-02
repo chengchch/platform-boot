@@ -4,8 +4,8 @@
 
 package com.platform.modules.sys.service;
 
-import com.platform.modules.sys.bean.SysDict;
 import com.platform.framework.common.BaseService;
+import com.platform.modules.sys.bean.SysDict;
 
 /**
  * 字典service

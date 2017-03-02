@@ -1,10 +1,10 @@
 package com.platform.framework.config;
 
-import com.opensymphony.sitemesh.webapp.SiteMeshFilter;
 import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.intercepter.LogInterceptor;
 import com.platform.framework.intercepter.MobileIntercepter;
 import com.platform.framework.servlet.ValidateCodeServlet;
+import com.opensymphony.sitemesh.webapp.SiteMeshFilter;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

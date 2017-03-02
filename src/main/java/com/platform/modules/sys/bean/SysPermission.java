@@ -4,9 +4,9 @@
 
 package com.platform.modules.sys.bean;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.platform.framework.cache.DataCached;
 import com.platform.framework.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 import java.util.Objects;

@@ -37,7 +37,7 @@ public class SysDict implements Serializable {
     @NoDbColumn
     private Integer actionType; // 表单类型
 
-    public Integer getId() {
+	public Integer getId() {
         return id;
     }
 

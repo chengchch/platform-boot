@@ -5,7 +5,6 @@
 package com.platform.framework.security;
 
 import com.platform.framework.common.Global;
-import com.platform.framework.common.SpringContextHolder;
 import com.platform.framework.security.shiro.session.SessionDAO;
 import com.platform.framework.servlet.ValidateCodeServlet;
 import com.platform.framework.util.Encodes;
@@ -14,7 +13,6 @@ import com.platform.modules.sys.action.LoginAction;
 import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.bean.SysRole;
 import com.platform.modules.sys.bean.SysUser;
-import com.platform.modules.sys.service.DictService;
 import com.platform.modules.sys.service.UserService;
 import com.platform.modules.sys.utils.UserUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -32,13 +30,9 @@ import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.JedisPool;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -86,7 +80,13 @@ public class SecurityRealm extends AuthorizingRealm {
         SysUser user = userService.getByUsername(token.getUsername());
         if (user != null) {
             if (user.getStatus() == Global.STATUS_DELETE) {
-                throw new AuthenticationException("msg:该已帐号禁止登录.");
+                throw new AuthenticationException("msg:该帐号不存在.");
+            }
+            if (user.getStatus() == Global.STATUS_LOCK) {
+                throw new AuthenticationException("msg:该帐号已被禁止登录.");
+            }
+            if (user.getStatus() == Global.STATUS_AUDIT) {
+                throw new AuthenticationException("msg:该帐号还未审核通过，请耐心等待或联系管理员.");
             }
             byte[] salt = Encodes.decodeHex(user.getPassword().substring(0, 16));
             return new SimpleAuthenticationInfo(new Principal(user, token.isMobileLogin()),

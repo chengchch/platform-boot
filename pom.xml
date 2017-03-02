@@ -6,9 +6,9 @@
 	<groupId>platform-boot</groupId>
 	<artifactId>platform-boot</artifactId>
 	<packaging>jar</packaging>
-	<version>3.0.0</version>
-	<name>platform-web</name>
-	<url>http://www.zsteel.cc</url>
+	<version>1.0.0</version>
+	<name>platform-boot</name>
+	<url>http://bdfint.com</url>
 
     <repositories>
         <repository>
@@ -31,7 +31,7 @@
     </parent>
 
 	<properties>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
 		<!-- lib versions -->
 		<shiro.version>1.3.2</shiro.version>
 		<poi.version>3.9</poi.version>

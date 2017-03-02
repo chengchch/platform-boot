@@ -66,8 +66,8 @@
                    </td>
                    <td class="active"><label class="pull-right"><span style="color: red; ">*</span>用户角色:</label></td>
                    <td>
-                       <form:checkboxes path="roleIdList" items="${fns:getRoleList()}" itemLabel="roleName" itemValue="id" htmlEscape="false" cssClass="i-checks required"/>
-                       <label class="error"></label>
+                       <div><form:checkboxes path="roleIdList" items="${fns:getRoleList()}" itemLabel="roleName" itemValue="id" htmlEscape="false" cssClass="i-checks required"/></div>
+                       <div><label class="error" id="roleIdList-error"></label></div>
                    </td>
                </tr>
 		      <tr>
@@ -86,17 +86,18 @@
 		      <tr>
 				  <td class="active"><label class="pull-right"><span style="color: red; ">*</span>用户名:</label></td>
 				  <td><input id="oldUsername" name="oldUsername" type="hidden" value="${sysUser.username}">
-					  <form:input path="username" htmlEscape="false" maxlength="50" class="form-control required"/></td>
+					  <form:input path="username" htmlEscape="false" maxlength="20" class="form-control required"/></td>
 				  <td class="active"><label class="pull-right"><span style="color: red; ">*</span>姓名:</label></td>
-				  <td><form:input path="realName" htmlEscape="false" maxlength="50" class="form-control required"/></td>
+				  <td><form:input path="realName" htmlEscape="false" maxlength="20" class="form-control required"/></td>
 		      </tr>
 
 		      <tr>
-		         <td class="active"><label class="pull-right"><c:if test="${empty sysUser.id}"><span style="color: red; ">*</span></c:if>密码:</label></td>
-		         <td><input id="password" name="password" type="password" value="" maxlength="50" minlength="3" class="form-control ${empty sysUser.id?'required':''}"/>
-					<c:if test="${not empty sysUser.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if></td>
-		         <td class="active"><label class="pull-right"><c:if test="${empty sysUser.id}"><font color="red">*</font></c:if>确认密码:</label></td>
-		         <td><input id="confirmPassword" name="confirmPassword" type="password"  class="form-control ${empty sysUser.id ? 'required' : ''}" value="" maxlength="50" minlength="3" equalTo="#password"/></td>
+		         <td class="active"><label class="pull-right">密码:</label></td>
+		         <td><input id="password" name="password" type="password" value="" maxlength="20" minlength="3" class="form-control"/>
+                     <c:if test="${empty sysUser.id}"><span class="help-inline">不填则自动设置默认密码为“123456”。</span></c:if>
+					 <c:if test="${not empty sysUser.id}"><span class="help-inline">若不修改密码，请留空。</span></c:if></td>
+		         <td class="active"><label class="pull-right">确认密码:</label></td>
+		         <td><input id="confirmPassword" name="confirmPassword" type="password"  class="form-control" value="" maxlength="50" minlength="3" equalTo="#password"/></td>
 		      </tr>
 
 			  <tr>
@@ -110,10 +111,10 @@
 			  </tr>
 
 		       <tr>
-		         <td class="active"><label class="pull-right">邮箱:</label></td>
-		         <td><form:input path="email" htmlEscape="false" maxlength="100" class="form-control email"/></td>
-		         <td class="active"><label class="pull-right">手机号:</label></td>
-		         <td><form:input path="mobile" htmlEscape="false" maxlength="100" class="form-control"/></td>
+		         <td class="active"><label class="pull-right"><span style="color: red; ">*</span>邮箱:</label></td>
+		         <td><form:input path="email" htmlEscape="false" maxlength="100" class="form-control required email"/></td>
+		         <td class="active"><label class="pull-right"><span style="color: red; ">*</span>手机号:</label></td>
+		         <td><form:input path="mobile" htmlEscape="false" maxlength="11" class="form-control required mobile"/></td>
 		      </tr>
 
 		       <tr>

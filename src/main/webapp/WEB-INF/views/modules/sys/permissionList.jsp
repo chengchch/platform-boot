@@ -34,7 +34,7 @@
                 <div class="col-sm-12">
                     <div class="pull-left">
                         <shiro:hasPermission name="sys:permission:edit">
-                            <table:addRow url="${ctx}/sys/permission/form" title="菜单"/><!-- 增加按钮 -->
+                            <table:addRow url="${ctx}/sys/permission/form" title="菜单" /><!-- 增加按钮 -->
                             <button id="btnSubmit" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="left"
                                     onclick="updateSort()"><i class="fa fa-save"></i> 保存排序</button>
                         </shiro:hasPermission>

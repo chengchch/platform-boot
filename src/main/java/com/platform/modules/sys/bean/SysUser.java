@@ -4,14 +4,13 @@
 
 package com.platform.modules.sys.bean;
 
-import com.google.common.collect.Lists;
 import com.platform.framework.cache.DataCached;
 import com.platform.framework.common.BaseEntity;
 import com.platform.framework.util.Collections3;
 import com.platform.framework.util.excel.ExcelField;
+import com.google.common.collect.Lists;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -92,7 +91,7 @@ public class SysUser extends BaseEntity<SysUser> {
         this.realName = realName;
     }
 
-    @ExcelField(title = "手机", align = 2, sort = 60)
+    @ExcelField(title = "手机", align = 2, sort = 50)
     public String getMobile() {
         return mobile;
     }
@@ -101,7 +100,7 @@ public class SysUser extends BaseEntity<SysUser> {
         this.mobile = mobile;
     }
 
-    @ExcelField(title = "邮箱", align = 1, sort = 50)
+    @ExcelField(title = "邮箱", align = 1, sort = 60)
     public String getEmail() {
         return email;
     }
@@ -118,7 +117,6 @@ public class SysUser extends BaseEntity<SysUser> {
         this.photo = photo;
     }
 
-    @NotNull(message = "密码不能为空")
     public String getPassword() {
         return password;
     }
@@ -202,4 +200,17 @@ public class SysUser extends BaseEntity<SysUser> {
     public String getCompanyName() {
         return companyName;
     }
+
+    @Override
+    @ExcelField(title = "用户状态", align = 2, sort = 80, dictType = "status")
+    public Integer getStatus() {
+        return super.getStatus();
+    }
+
+    @Override
+    @ExcelField(title = "用户类型", align = 2, sort = 90, dictType = "sys_user_type")
+    public Integer getType() {
+        return super.getType();
+    }
+
 }

@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 系统权限sevice实现类
@@ -57,18 +59,41 @@ public class PermissionServiceImpl extends BaseServiceImpl<SysPermission> implem
      * @return List
      */
     @Override
-    public List<SysPermission> getByUserId(Integer userId) {
-        String sql = "SELECT rp.permission_id, rp.role_id" +
+    public List<SysPermission> getByUserId(Integer userId, int type) {
+       /*String sql = "SELECT DISTINCT rp.permission_id, rp.role_id" +
                 " FROM sys_role_permission rp" +
                 " JOIN sys_user_role ur ON ur.role_id = rp.role_id" +
-                " AND ur.user_id = " + userId;
+                " AND ur.user_id = " + userId;*/
+
+    	/*String sql = "SELECT DISTINCT rp.permission_id, rp.role_id" +
+                "  FROM sys_permission sp" +
+    			"  JOIN sys_role_permission rp ON sp.id=rp.permission_id and sp.is_show=1" +
+    			"  JOIN sys_user_role ur ON ur.role_id = rp.role_id AND ur.user_id = "+userId;*/
+
+        String sql;
+        if (type != 1) {
+            sql = "SELECT DISTINCT rp.permission_id, rp.role_id" +
+                    "  FROM sys_permission sp" +
+                    "  JOIN sys_role_permission rp ON sp.id=rp.permission_id and sp.is_show=1" +
+                    "  JOIN sys_user_role ur ON ur.role_id = rp.role_id AND ur.user_id = " + userId;
+        } else {
+            sql = "SELECT DISTINCT rp.permission_id, rp.role_id" +
+                    " FROM sys_role_permission rp" +
+                    " JOIN sys_user_role ur ON ur.role_id = rp.role_id" +
+                    " AND ur.user_id = " + userId;
+        }
+
         List<SysRolePermission> sysRolePermissionList = mybatisDao.selectListBySql(SysRolePermission.class, sql);
+        Set<Integer> hs = new HashSet<>();
+        for (SysRolePermission rolePermission : sysRolePermissionList) {
+            hs.add(rolePermission.getPermissionId());
+        }
         StringBuilder ids = new StringBuilder();
-        for (SysRolePermission sysRolePermission : sysRolePermissionList) {
+        for (Integer permissionId : hs) {
             if (ids.length() == 0) {
-                ids.append(sysRolePermission.getPermissionId());
+                ids.append(permissionId);
             } else {
-                ids.append(",").append(sysRolePermission.getPermissionId());
+                ids.append(",").append(permissionId);
             }
         }
         return mybatisDao.selectListByIds(SysPermission.class, ids.toString());

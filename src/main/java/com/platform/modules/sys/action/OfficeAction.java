@@ -3,8 +3,6 @@
  */
 package com.platform.modules.sys.action;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.platform.framework.common.BaseAction;
 import com.platform.framework.common.Global;
 import com.platform.framework.util.StringUtils;
@@ -16,6 +14,8 @@ import com.platform.modules.sys.service.AreaService;
 import com.platform.modules.sys.service.OfficeService;
 import com.platform.modules.sys.utils.DictUtils;
 import com.platform.modules.sys.utils.UserUtils;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

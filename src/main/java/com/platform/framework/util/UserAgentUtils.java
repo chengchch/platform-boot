@@ -9,7 +9,6 @@ import eu.bitwalker.useragentutils.DeviceType;
 import eu.bitwalker.useragentutils.UserAgent;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.InetAddress;
 
 /**
  * 用户代理字符串识别工具

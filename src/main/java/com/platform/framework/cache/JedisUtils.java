@@ -4,24 +4,22 @@
 
 package com.platform.framework.cache;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.exceptions.JedisException;
-
+import com.platform.framework.common.SpringContextHolder;
+import com.platform.framework.util.ObjectUtils;
+import com.platform.framework.util.StringUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.platform.framework.common.SpringContextHolder;
-import com.platform.framework.common.SysConfigManager;
-import com.platform.framework.util.ObjectUtils;
-import com.platform.framework.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPool;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Jedis Cache 工具类
@@ -33,7 +31,9 @@ public class JedisUtils {
 
     private static Logger logger = LoggerFactory.getLogger(JedisUtils.class);
 
-    private static JedisPool jedisPool = SpringContextHolder.getBean(JedisPool.class);
+    //private static JedisPool jedisPool = SpringContextHolder.getBean(JedisPool.class);
+
+    private static JedisCluster cluster = SpringContextHolder.getBean(JedisCluster.class);
 
     /**
      * 获取缓存
@@ -43,7 +43,7 @@ public class JedisUtils {
      */
     public static String get(String key) {
         String value = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(key)) {
@@ -67,7 +67,7 @@ public class JedisUtils {
      */
     public static Object getObject(String key) {
         Object value = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
@@ -92,7 +92,7 @@ public class JedisUtils {
      */
     public static String set(String key, String value, int cacheSeconds) {
         String result = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.set(key, value);
@@ -114,11 +114,11 @@ public class JedisUtils {
      * @param key          键
      * @param value        值
      * @param cacheSeconds 超时时间，0为不超时
-     * @return
+     * @return String
      */
     public static String setObject(String key, Object value, int cacheSeconds) {
         String result = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.set(getBytesKey(key), toBytes(value));
@@ -142,7 +142,7 @@ public class JedisUtils {
      */
     public static List<String> getList(String key) {
         List<String> value = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(key)) {
@@ -165,7 +165,7 @@ public class JedisUtils {
      */
     public static List<Object> getObjectList(String key) {
         List<Object> value = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
@@ -190,11 +190,11 @@ public class JedisUtils {
      * @param key          键
      * @param value        值
      * @param cacheSeconds 超时时间，0为不超时
-     * @return
+     * @return long
      */
     public static long setList(String key, List<String> value, int cacheSeconds) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(key)) {
@@ -219,11 +219,11 @@ public class JedisUtils {
      * @param key          键
      * @param value        值
      * @param cacheSeconds 超时时间，0为不超时
-     * @return
+     * @return long
      */
     public static long setObjectList(String key, List<Object> value, int cacheSeconds) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
@@ -251,11 +251,11 @@ public class JedisUtils {
      *
      * @param key   键
      * @param value 值
-     * @return
+     * @return long
      */
     public static long listAdd(String key, String... value) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.rpush(key, value);
@@ -273,11 +273,11 @@ public class JedisUtils {
      *
      * @param key   键
      * @param value 值
-     * @return
+     * @return long
      */
     public static long listObjectAdd(String key, Object... value) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             List<byte[]> list = Lists.newArrayList();
@@ -302,7 +302,7 @@ public class JedisUtils {
      */
     public static Set<String> getSet(String key) {
         Set<String> value = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(key)) {
@@ -325,7 +325,7 @@ public class JedisUtils {
      */
     public static Set<Object> getObjectSet(String key) {
         Set<Object> value = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
@@ -350,11 +350,11 @@ public class JedisUtils {
      * @param key          键
      * @param value        值
      * @param cacheSeconds 超时时间，0为不超时
-     * @return
+     * @return long
      */
     public static long setSet(String key, Set<String> value, int cacheSeconds) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(key)) {
@@ -379,11 +379,11 @@ public class JedisUtils {
      * @param key          键
      * @param value        值
      * @param cacheSeconds 超时时间，0为不超时
-     * @return
+     * @return long
      */
     public static long setObjectSet(String key, Set<Object> value, int cacheSeconds) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
@@ -411,11 +411,11 @@ public class JedisUtils {
      *
      * @param key   键
      * @param value 值
-     * @return
+     * @return long
      */
     public static long setSetAdd(String key, String... value) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.sadd(key, value);
@@ -433,11 +433,11 @@ public class JedisUtils {
      *
      * @param key   键
      * @param value 值
-     * @return
+     * @return long
      */
     public static long setSetObjectAdd(String key, Object... value) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             Set<byte[]> set = Sets.newHashSet();
@@ -462,7 +462,7 @@ public class JedisUtils {
      */
     public static Map<String, String> getMap(String key) {
         Map<String, String> value = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(key)) {
@@ -485,7 +485,7 @@ public class JedisUtils {
      */
     public static Map<String, Object> getObjectMap(String key) {
         Map<String, Object> value = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
@@ -510,11 +510,11 @@ public class JedisUtils {
      * @param key          键
      * @param value        值
      * @param cacheSeconds 超时时间，0为不超时
-     * @return
+     * @return String
      */
     public static String setMap(String key, Map<String, String> value, int cacheSeconds) {
         String result = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(key)) {
@@ -539,11 +539,11 @@ public class JedisUtils {
      * @param key          键
      * @param value        值
      * @param cacheSeconds 超时时间，0为不超时
-     * @return
+     * @return String
      */
     public static String setObjectMap(String key, Map<String, Object> value, int cacheSeconds) {
         String result = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
@@ -571,11 +571,11 @@ public class JedisUtils {
      *
      * @param key   键
      * @param value 值
-     * @return
+     * @return String
      */
     public static String mapPut(String key, Map<String, String> value) {
         String result = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.hmset(key, value);
@@ -593,11 +593,11 @@ public class JedisUtils {
      *
      * @param key   键
      * @param value 值
-     * @return
+     * @return String
      */
     public static String mapObjectPut(String key, Map<String, Object> value) {
         String result = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             Map<byte[], byte[]> map = Maps.newHashMap();
@@ -619,11 +619,11 @@ public class JedisUtils {
      *
      * @param key    键
      * @param mapKey 值
-     * @return
+     * @return long
      */
     public static long mapRemove(String key, String mapKey) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.hdel(key, mapKey);
@@ -641,11 +641,11 @@ public class JedisUtils {
      *
      * @param key    键
      * @param mapKey 值
-     * @return
+     * @return long
      */
     public static long mapObjectRemove(String key, String mapKey) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.hdel(getBytesKey(key), getBytesKey(mapKey));
@@ -663,11 +663,11 @@ public class JedisUtils {
      *
      * @param key    键
      * @param mapKey 值
-     * @return
+     * @return long
      */
     public static boolean mapExists(String key, String mapKey) {
         boolean result = false;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.hexists(key, mapKey);
@@ -685,11 +685,11 @@ public class JedisUtils {
      *
      * @param key    键
      * @param mapKey 值
-     * @return
+     * @return long
      */
     public static boolean mapObjectExists(String key, String mapKey) {
         boolean result = false;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.hexists(getBytesKey(key), getBytesKey(mapKey));
@@ -706,11 +706,11 @@ public class JedisUtils {
      * 删除缓存
      *
      * @param key 键
-     * @return
+     * @return long
      */
     public static long del(String key) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(key)) {
@@ -731,11 +731,11 @@ public class JedisUtils {
      * 删除缓存
      *
      * @param key 键
-     * @return
+     * @return long
      */
     public static long delObject(String key) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             if (jedis.exists(getBytesKey(key))) {
@@ -760,11 +760,13 @@ public class JedisUtils {
      */
     public static long delKeysLike(String likekey) {
         long result = 0;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
-            Set<String> keys = jedis.keys(likekey + "*");
-            result = jedis.del(keys.toArray(new String[keys.size()]));
+            Set<String> keys = keys(likekey + "*");
+            for(String key : keys){
+                jedis.del(key);
+            }
             logger.debug("delKeysLike {}", likekey);
         } catch (Exception e) {
             logger.warn("delKeysLike {}", likekey, e);
@@ -773,16 +775,35 @@ public class JedisUtils {
         }
         return result;
     }
+
+    public static TreeSet<String> keys(String pattern){
+        TreeSet<String> keys = new TreeSet<>();
+        JedisCluster jedis = getResource();
+        Map<String, JedisPool> clusterNodes = jedis.getClusterNodes();
+        for(String k : clusterNodes.keySet()){
+            logger.debug("Getting keys from: {}", k);
+            JedisPool jp = clusterNodes.get(k);
+            try (Jedis connection = jp.getResource()) {
+                keys.addAll(connection.keys(pattern));
+            } catch (Exception e) {
+                logger.error("Getting keys error: {}", e);
+            } finally {
+                logger.debug("Connection closed.");
+
+            }
+        }
+        return keys;
+    }
     
     /**
      * 缓存是否存在
      *
      * @param key 键
-     * @return
+     * @return boolean
      */
     public static boolean exists(String key) {
         boolean result = false;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.exists(key);
@@ -799,11 +820,11 @@ public class JedisUtils {
      * 缓存是否存在
      *
      * @param key 键
-     * @return
+     * @return boolean
      */
     public static boolean existsObject(String key) {
         boolean result = false;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = getResource();
             result = jedis.exists(getBytesKey(key));
@@ -818,12 +839,9 @@ public class JedisUtils {
 
     /**
      * 获取资源
-     *
-     * @return
-     * @throws JedisException
      */
-    public static Jedis getResource() throws JedisException {
-        Jedis jedis = null;
+    public static JedisCluster getResource() {
+        /*Jedis jedis = null;
         try {
             jedis = jedisPool.getResource();
             logger.debug("getResource.", jedis);
@@ -831,26 +849,21 @@ public class JedisUtils {
             logger.warn("getResource.", e);
             returnResource(jedis);
             throw e;
-        }
-        return jedis;
+        }*/
+        return cluster;
     }
 
     /**
      * 释放资源
-     *
-     * @param jedis
      */
-    public static void returnResource(Jedis jedis) {
-        if (jedis != null) {
+    public static void returnResource(JedisCluster jedis) {
+        /*if (jedis != null) {
             jedis.close();
-        }
+        }*/
     }
 
     /**
      * 获取byte[]类型Key
-     *
-     * @param object
-     * @return
      */
     public static byte[] getBytesKey(Object object) {
         if (object instanceof String) {
@@ -862,9 +875,6 @@ public class JedisUtils {
 
     /**
      * Object转换byte[]类型
-     *
-     * @param object
-     * @return
      */
     public static byte[] toBytes(Object object) {
         return ObjectUtils.serialize(object);
@@ -872,9 +882,6 @@ public class JedisUtils {
 
     /**
      * byte[]型转换Object
-     *
-     * @param bytes
-     * @return
      */
     public static Object toObject(byte[] bytes) {
         return ObjectUtils.unserialize(bytes);

@@ -1,12 +1,17 @@
 package com.platform.framework.config;
 
 import com.platform.framework.util.StringUtils;
+import com.google.common.collect.Sets;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author lufengc
@@ -21,7 +26,8 @@ public class RedisConfig {
     private int port;
     private int timeout;
     private String password;
-    private Pool pool;
+    private RedisConfig.Pool pool;
+    private RedisConfig.Cluster cluster;
 
     public String getKeyPrefix() {
         return keyPrefix;
@@ -71,11 +77,46 @@ public class RedisConfig {
         this.pool = pool;
     }
 
+    public Cluster getCluster() {
+        return cluster;
+    }
+
+    public void setCluster(Cluster cluster) {
+        this.cluster = cluster;
+    }
+
+    public static class Cluster {
+        private List<String> nodes;
+        private Integer maxRedirects;
+
+        public Cluster() {
+        }
+
+        public List<String> getNodes() {
+            return this.nodes;
+        }
+
+        public void setNodes(List<String> nodes) {
+            this.nodes = nodes;
+        }
+
+        public Integer getMaxRedirects() {
+            return this.maxRedirects;
+        }
+
+        public void setMaxRedirects(Integer maxRedirects) {
+            this.maxRedirects = maxRedirects;
+        }
+    }
+
     public static class Pool {
         private int maxActive = 8;
         private int maxIdle = 8;
         private int minIdle = 0;
         private int maxWait = -1;
+
+        public Pool() {
+        }
 
         public int getMaxActive() {
             return maxActive;
@@ -122,6 +163,24 @@ public class RedisConfig {
         } else {
             return new JedisPool(config, host, port, timeout);
         }
+    }
+
+    @Bean
+    public JedisCluster getJedisCluster() {
+        JedisPoolConfig config = new JedisPoolConfig();
+        config.setMaxTotal(pool.getMaxActive());
+        config.setMaxIdle(pool.getMaxIdle());
+        config.setMinIdle(pool.getMinIdle());
+        config.setMaxWaitMillis(pool.getMaxWait());
+
+        List<String> clusterNodes = cluster.getNodes();
+        Set<HostAndPort> hostAndPorts = Sets.newHashSet();
+        for (String ipPort : clusterNodes) {
+            String[] ipPortPair = ipPort.split(":");
+            hostAndPorts.add(new HostAndPort(ipPortPair[0].trim(), Integer.valueOf(ipPortPair[1].trim())));
+        }
+
+        return new JedisCluster(hostAndPorts, timeout, cluster.getMaxRedirects(), config);
     }
 
 }

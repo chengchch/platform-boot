@@ -11,7 +11,6 @@ import com.platform.modules.sys.bean.NoDbColumn;
 import com.platform.modules.sys.utils.UserUtils;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Field;
@@ -213,8 +212,8 @@ public class MybatisDao {
         String tableName = BeanToTable.beanToTable(name);
 
         //表中的总记录数
-        String countSql = "SELECT COUNT(0) FROM " + tableName;
-        page.setCount(selectCountBySql(countSql));
+//        String countSql = "SELECT COUNT(0) FROM " + tableName;
+//        page.setCount(selectCountBySql(countSql));
 
         if (StringUtils.isEmpty(conditions)) {
             conditions = "1=1";
@@ -248,6 +247,7 @@ public class MybatisDao {
         }
         //当前筛选条件的分页后的总记录数
         List<String> idList = sqlSession.selectList(MybatisBaseDao.class.getName() + ".selectStringBySql", jpql.toString());
+        page.setCount(count);
         page.setDisplayCount(count);
         StringBuilder ids = new StringBuilder();
         for (String id : idList) {

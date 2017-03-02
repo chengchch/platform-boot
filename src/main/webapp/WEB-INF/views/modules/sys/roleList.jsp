@@ -16,6 +16,8 @@
         <div class="ibox-content">
             <sys:message content="${message}"/>
 
+            <form:form id="searchForm" modelAttribute="sysRole" action="${ctx}/sys/role/list" method="post" class="form-inline">
+            </form:form>
             <!-- 工具栏 -->
             <div class="row">
                 <div class="col-sm-12">
@@ -33,7 +35,7 @@
 
             <!-- 数据表 -->
             <table:check id="contentTable"/>
-            <table id="contentTable" class="table table-striped table-bordered table-hover table-condensed dataTables-example dataTable">
+            <table id="contentTable" class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th><input type="checkbox" class="i-checks"></th>

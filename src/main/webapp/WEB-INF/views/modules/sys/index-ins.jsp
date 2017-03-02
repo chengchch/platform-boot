@@ -8,12 +8,12 @@
     <meta name="renderer" content="webkit">
     <meta name="keywords" content="首页">
     <meta name="description" content="首页">
-    <title>platform</title>
+    <title>集采后台系统</title>
     <%@ include file="/WEB-INF/views/include/head-ins.jsp"%>
     <script src="${ctxStatic}/static/app/js/index-ins.js"></script>
 </head>
 
-<body class="fixed-sidebar full-height-layout gray-bg">
+<body class="fixed-sidebar full-height-layout gray-bg" style="min-width: 1024px">
     <div id="wrapper">
         <!--左侧导航开始-->
         <nav class="navbar-default navbar-static-side" role="navigation">
@@ -70,7 +70,7 @@
         <!--左侧导航结束-->
         <!--右侧部分开始-->
         <div id="page-wrapper" class="gray-bg dashbard-1">
-            <div class="row border-bottom">
+            <%--<div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
@@ -81,13 +81,13 @@
                         </form>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
-                        <%--<li>
+                        &lt;%&ndash;<li>
                             <iframe width="280" scrolling="no" height="25" frameborder="0"
                                     allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=34&icon=1&num=3"></iframe>
-                        </li>--%>
+                        </li>&ndash;%&gt;
                     </ul>
                 </nav>
-            </div>
+            </div>--%>
             <div class="row content-tabs">
                 <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i></button>
                 <nav class="page-tabs J_menuTabs">

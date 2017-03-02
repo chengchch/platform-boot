@@ -4,8 +4,8 @@
 
 package com.platform.framework.util;
 
-import com.google.common.collect.Lists;
 import com.platform.framework.common.SpringContextHolder;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

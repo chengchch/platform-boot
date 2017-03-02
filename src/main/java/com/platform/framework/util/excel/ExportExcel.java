@@ -4,9 +4,10 @@
 
 package com.platform.framework.util.excel;
 
-import com.google.common.collect.Lists;
 import com.platform.framework.util.Encodes;
 import com.platform.framework.util.Reflections;
+import com.platform.modules.sys.utils.DictUtils;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -381,7 +382,7 @@ public class ExportExcel {
                     }
                     // If is oa, get oa label
                     if (StringUtils.isNotBlank(ef.dictType())) {
-                        //val = DictUtils.getDictLabel(val==null?"":val.toString(), ef.dictType(), "");
+                        val = DictUtils.getDictLabel(val==null?"":val.toString(), ef.dictType(), "");
                     }
                 } catch (Exception ex) {
                     // Failure to ignore

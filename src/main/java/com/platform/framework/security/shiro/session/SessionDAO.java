@@ -4,9 +4,9 @@
 
 package com.platform.framework.security.shiro.session;
 
-import java.util.Collection;
-
 import org.apache.shiro.session.Session;
+
+import java.util.Collection;
 
 /**
  * SessionDao自定义

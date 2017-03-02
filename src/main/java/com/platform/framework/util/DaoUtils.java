@@ -5,7 +5,6 @@
 package com.platform.framework.util;
 
 import com.platform.framework.common.PropertyFilter;
-import com.platform.framework.common.PropertyFilter.MatchType;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
@@ -126,7 +125,7 @@ public class DaoUtils {
      * @param fieldRelationType 当前字段的匹配规则<code>PropertyFilter.FieldRelationType</code>
      * @return StringBuffer
      */
-    private static StringBuffer buildWhereClause(StringBuffer sb, String propertyName, MatchType matchType,
+    private static StringBuffer buildWhereClause(StringBuffer sb, String propertyName, PropertyFilter.MatchType matchType,
                                                   Object matchValue, PropertyFilter.FieldRelationType fieldRelationType) {
         String column = BeanToTable.beanToTable(propertyName);
         switch (matchType) {

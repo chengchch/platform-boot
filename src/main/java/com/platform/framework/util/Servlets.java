@@ -4,10 +4,10 @@
 
 package com.platform.framework.util;
 
-import com.google.common.net.HttpHeaders;
 import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.security.SecurityRealm;
 import com.platform.modules.sys.utils.UserUtils;
+import com.google.common.net.HttpHeaders;
 import org.apache.commons.lang3.Validate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

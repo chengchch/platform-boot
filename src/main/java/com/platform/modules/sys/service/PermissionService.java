@@ -4,8 +4,8 @@
 
 package com.platform.modules.sys.service;
 
-import com.platform.modules.sys.bean.SysPermission;
 import com.platform.framework.common.BaseService;
+import com.platform.modules.sys.bean.SysPermission;
 
 import java.util.List;
 
@@ -35,9 +35,10 @@ public interface PermissionService extends BaseService<SysPermission> {
      * 根据用户ID获取权限
      *
      * @param userId 用户ID
+     * @param type
      * @return List
      */
-    List<SysPermission> getByUserId(Integer userId);
+    List<SysPermission> getByUserId(Integer userId, int type);
 
     /**
      * 根据parentId获取权限

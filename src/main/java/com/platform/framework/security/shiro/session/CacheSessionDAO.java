@@ -4,12 +4,12 @@
 
 package com.platform.framework.security.shiro.session;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.platform.framework.common.Global;
+import com.platform.framework.common.SysConfigManager;
+import com.platform.framework.util.DateUtils;
+import com.platform.framework.util.Servlets;
+import com.platform.framework.util.StringUtils;
+import com.google.common.collect.Sets;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
@@ -18,12 +18,10 @@ import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Sets;
-import com.platform.framework.common.Global;
-import com.platform.framework.common.SysConfigManager;
-import com.platform.framework.util.DateUtils;
-import com.platform.framework.util.Servlets;
-import com.platform.framework.util.StringUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * 系统安全认证实现类

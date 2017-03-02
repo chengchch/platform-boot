@@ -4,10 +4,10 @@
 
 package com.platform.framework.common;
 
+import org.apache.ibatis.annotations.*;
+
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.*;
 
 /**
  * mybatis接口

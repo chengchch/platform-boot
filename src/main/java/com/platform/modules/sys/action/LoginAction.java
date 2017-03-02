@@ -4,10 +4,8 @@
 
 package com.platform.modules.sys.action;
 
-import com.google.common.collect.Maps;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.Global;
-import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.config.SystemProperties;
 import com.platform.framework.security.FormAuthenticationFilter;
 import com.platform.framework.security.SecurityRealm;
@@ -19,6 +17,7 @@ import com.platform.framework.util.Encodes;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.utils.UserUtils;
+import com.google.common.collect.Maps;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;

@@ -4,17 +4,16 @@
 
 package com.platform.modules.sys.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import com.platform.framework.common.SpringContextHolder;
+import com.platform.framework.security.SecurityRealm;
 import com.platform.modules.sys.bean.*;
 import com.platform.modules.sys.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.platform.framework.common.SpringContextHolder;
-import com.platform.framework.security.SecurityRealm.Principal;
+import java.util.*;
 
 /**
  * 用户工具类
@@ -64,7 +63,7 @@ public class UserUtils {
      * @return 取不到返回 new User()
      */
     public static SysUser getUser() {
-        Principal principal = getPrincipal();
+        SecurityRealm.Principal principal = getPrincipal();
         if (principal != null) {
             SysUser user = get(principal.getId());
             if (user != null) {
@@ -131,16 +130,32 @@ public class UserUtils {
             if (permissionList == null) {
                 SysUser user = getUser();
                 if (user.isAdmin()) {
-                    permissionList = permissionService.getList(new SysPermission());
+                    SysPermission sysPermission = new SysPermission();
+                    sysPermission.setIsShow(1);
+                    permissionList = permissionService.getList(sysPermission);
                 } else {
-                    permissionList = permissionService.getByUserId(getUserId());
+                    permissionList = permissionService.getByUserId(getUserId(), 0);
                 }
                 putCache(CACHE_PERMISSION_LIST, permissionList);
             }
         } catch (Exception e) {
             permissionList = new ArrayList<>();
         }
-        return permissionList;
+        List<SysPermission> list = Lists.newArrayList();
+        Collections.sort(permissionList, new Comparator<SysPermission>(){
+            public int compare(SysPermission o1, SysPermission o2) {
+                // 按sortId升序排序
+                if(o1.getSortId() > o2.getSortId()){
+                    return 1;
+                } else if(Objects.equals(o1.getSortId(), o2.getSortId())){
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+        });
+        SysPermission.sortList(list, permissionList, SysPermission.getRootId(), true);
+        return list;
     }
 
     /**
@@ -174,7 +189,8 @@ public class UserUtils {
                 if (user.isAdmin()){
                     officeList = officeService.getList(new SysOffice());
                 }else{
-                    officeList = officeService.getByUserId(getUserId());
+                    officeList = officeService.getList(new SysOffice());
+                    //officeList = officeService.getByUserId(getUserId());
                 }
                 putCache(CACHE_OFFICE_LIST, officeList);
             }
@@ -214,7 +230,7 @@ public class UserUtils {
      * @return 取不到返回 new User()
      */
     public static int getUserId() {
-        Principal principal = getPrincipal();
+        SecurityRealm.Principal principal = getPrincipal();
         int userId = 0;
         if (principal != null) {
             userId = principal.getId();
@@ -225,9 +241,9 @@ public class UserUtils {
     /**
      * 获取当前登录者对象
      */
-    public static Principal getPrincipal() {
+    public static SecurityRealm.Principal getPrincipal() {
         Subject subject = SecurityUtils.getSubject();
-        return (Principal) subject.getPrincipal();
+        return (SecurityRealm.Principal) subject.getPrincipal();
     }
 
     /**

@@ -413,7 +413,6 @@ function openDialog(title, url, width, height, target) {
             if (iframeWin.contentWindow.doSubmit()) {
                 top.layer.close(index);//关闭对话框。
             }
-
         },
         cancel: function (index) {
         }
@@ -441,6 +440,24 @@ function openDialogView(title, url, width, height) {
     });
 }
 
+function isCheck(tableId) {
+    var str="";
+    var ids="";
+    $("#" + tableId).find("tbody tr td input.i-checks:checkbox").each(function(){
+        if(true == $(this).is(':checked')){
+            str+=$(this).attr("id")+",";
+        }
+    });
+    if(str.substr(str.length-1)== ','){
+        ids = str.substr(0,str.length-1);
+    }
+    if(ids == ""){
+        top.layer.alert('请至少选择一条数据!', {icon: 0, title:'警告'});
+        return "0";
+    }
+    return ids;
+}
+
 function searchAll() {//查询，页码清零
     $("#pageNo").val(0);
     $("#searchForm").submit();
@@ -455,7 +472,6 @@ function resetAll() {//重置，页码清零
     return false;
 }
 function sortOrRefresh() {//刷新或者排序，页码不清零
-
     $("#searchForm").submit();
     return false;
 }

@@ -4,11 +4,11 @@
 
 package com.platform.framework.security.shiro.session;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
+
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * sessionId 生成器
@@ -22,7 +22,7 @@ public class SessionIdGen implements SessionIdGenerator {
 	 * 实现generateId方法
 	 * @param session session
 	 * @return Serializable
-	 * @see org.apache.shiro.session.mgt.eis.SessionIdGenerator#generateId(org.apache.shiro.session.Session)
+	 * @see SessionIdGenerator#generateId(Session)
 	 */
 	@Override
 	public Serializable generateId(Session session) {

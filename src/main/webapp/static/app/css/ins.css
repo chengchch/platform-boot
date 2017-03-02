@@ -3709,7 +3709,7 @@ nav.page-tabs .page-tabs-content {
 }
 
 #content-main {
-    height: calc(100% - 140px);
+    height: calc(100% - 78px);
 }
 
 .fixed-nav #content-main {
@@ -7038,7 +7038,7 @@ body.rtls.top-navigation .footer.fixed {
 
 .theme-config {
     position: absolute;
-    top: 64px;
+    top: 2px;
     right: 0;
     overflow: hidden;
 }
@@ -8267,4 +8267,8 @@ input[type=checkbox], input[type=radio] {
 
 .form-actions {
     margin-top: 20px;
+}
+
+.form-group input, .form-group button {
+    margin-bottom: 5px;
 }

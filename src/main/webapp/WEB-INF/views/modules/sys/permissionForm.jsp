@@ -47,7 +47,7 @@
 			   <td class="width-35" ><sys:treeselect id="menu" name="parentId" value="${sysPermission.parentId}"
 													 labelName="parentName" labelValue="${sysPermission.parentName}"
 													 title="菜单" url="/sys/permission/treeData" extId="${sysPermission.id}"
-													 cssClass="form-control required"/></td>
+													 cssClass="form-control"/></td>
 		   </tr>
 		   <tr>
 			   <td class="active"><label class="pull-right"><span style="color: red; ">*</span> 名称:</label></td>
@@ -58,15 +58,16 @@
 		   </tr>
 		   <tr>
 			   <td class="active"><label class="pull-right">图标:</label></td>
-			   <td><sys:iconselect id="thumbImg" name="thumbImg" value="${sysPermission.thumbImg}"/></td>
+			   <td><sys:iconselect id="thumbImg" name="thumbImg" value="${sysPermission.thumbImg}"/>
+				   <span class="help-inline">该图标只作用于一级菜单</span></td>
 			   <td class="active"><label class="pull-right">排序:</label></td>
-			   <td><form:input path="sortId" htmlEscape="false" maxlength="50" class="digits form-control "/>
-				   <span class="help-inline">排列顺序，升序。</span></td>
+			   <td><form:input path="sortId" htmlEscape="false" maxlength="50" class="required digits form-control" readonly="true"/>
+				   <span class="help-inline">排列顺序，升序。系统自动生成</span></td>
 		   </tr>
 		   <tr>
 			   <td class="active"><label class="pull-right">可见:</label></td>
 			   <td><form:radiobuttons path="isShow" items="${fns:getDictList('show_hide')}" itemLabel="label" itemValue="value" htmlEscape="false" class="required i-checks "/>
-				   <span class="help-inline">该菜单或操作是否显示到系统菜单中</span></td>
+				   <span class="help-inline">该菜单是否显示到系统菜单中,只控制菜单，按钮默认为显示</span></td>
 			   <td class="active"><label class="pull-right">权限标识:</label></td>
 			   <td><form:input path="permissionSign" htmlEscape="false" maxlength="100" class="form-control "/>
 				   <span class="help-inline">如：@RequiresPermissions("权限标识")</span></td>

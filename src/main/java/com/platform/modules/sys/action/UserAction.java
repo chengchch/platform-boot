@@ -5,12 +5,7 @@
 package com.platform.modules.sys.action;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.platform.framework.common.BaseAction;
-import com.platform.framework.common.Page;
-import com.platform.framework.common.PropertyFilter;
-import com.platform.framework.common.SysConfigManager;
+import com.platform.framework.common.*;
 import com.platform.framework.mapper.AjaxJson;
 import com.platform.framework.util.*;
 import com.platform.framework.util.excel.ExportExcel;
@@ -23,6 +18,8 @@ import com.platform.modules.sys.service.OfficeService;
 import com.platform.modules.sys.service.RoleService;
 import com.platform.modules.sys.service.UserService;
 import com.platform.modules.sys.utils.UserUtils;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +33,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * 用户管理
@@ -134,7 +134,7 @@ public class UserAction extends BaseAction<SysUser> {
             sysUserPage.addPropertyFilter(propertyFilter);
         }
         object.setOfficeId(null);
-        Page<SysUser> page = userService.getPage(sysUserPage, object, "status <> 1");
+        Page<SysUser> page = userService.getPage(sysUserPage, object, "status <> "+Global.STATUS_DELETE);
         model.addAttribute("page", page);
         return "modules/sys/userList";
     }
@@ -170,7 +170,35 @@ public class UserAction extends BaseAction<SysUser> {
         if (user.getUsername().equals(UserUtils.getUser().getUsername())) {
             UserUtils.clearCache();
         }
-        addMessage(redirectAttributes, "保存用户'" + user.getUsername() + "'成功");
+        addMessage(redirectAttributes, "保存用户'" + user.getRealName() + "'成功");
+        return "redirect:" + adminPath + "/sys/user/list?repage";
+    }
+
+    /**
+     * 更新状态
+     *
+     * @return ModelAndView
+     * @throws Exception
+     */
+    @RequestMapping(value = "updateStatus")
+    @RequiresPermissions("sys:user:edit")
+    public String updateStatus(Model model, SysUser user, Param param, RedirectAttributes redirectAttributes) throws Exception {
+        userService.updateStatus(param.getIds(), user);
+        addMessage(redirectAttributes, "操作成功");
+        return "redirect:" + adminPath + "/sys/user/list?repage";
+    }
+
+    /**
+     * 密码初始化
+     *
+     * @return ModelAndView
+     * @throws Exception
+     */
+    @RequestMapping(value = "initPassword")
+    @RequiresPermissions("sys:user:edit")
+    public String initPassword(Model model, SysUser user, Param param, RedirectAttributes redirectAttributes) throws Exception {
+        userService.initPassword(param.getIds(), user.getPassword());
+        addMessage(redirectAttributes, "操作成功");
         return "redirect:" + adminPath + "/sys/user/list?repage";
     }
 
@@ -222,7 +250,7 @@ public class UserAction extends BaseAction<SysUser> {
     public String exportFile(SysUser user, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
         try {
             String fileName = "用户数据" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
-            Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response), user, "status <> 0");
+            Page<SysUser> page = userService.getPage(new Page<SysUser>(request, response, -1), user, "status <> 0");
             new ExportExcel("用户数据", SysUser.class).setDataList(page.getList()).write(response, fileName).dispose();
             return null;
         } catch (Exception e) {
@@ -240,7 +268,7 @@ public class UserAction extends BaseAction<SysUser> {
      */
     @RequiresPermissions("sys:user:edit")
     @RequestMapping(value = "import", method = RequestMethod.POST)
-    public String importFile(MultipartFile file, RedirectAttributes redirectAttributes) {
+    public String importFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         try {
             int successNum = 0;
             int failureNum = 0;
@@ -250,7 +278,7 @@ public class UserAction extends BaseAction<SysUser> {
             for (SysUser user : list) {
                 try {
                     if ("true".equals(checkLoginName("", user.getUsername()))) {
-                        user.setPassword(Encodes.entryptPassword("123456"));
+                        user.setPassword(Encodes.encryptPassword("123456"));
                         BeanValidators.validateWithException(validator, user);
                         userService.save(user);
                         successNum++;

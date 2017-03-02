@@ -3,13 +3,13 @@
  */
 package com.platform.framework.security.shiro.session;
 
-import com.google.common.collect.Sets;
 import com.platform.framework.cache.JedisUtils;
 import com.platform.framework.common.Global;
 import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.util.DateUtils;
 import com.platform.framework.util.Servlets;
 import com.platform.framework.util.StringUtils;
+import com.google.common.collect.Sets;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.SimpleSession;
@@ -18,7 +18,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -64,7 +64,7 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
             }
         }
 
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
 
             jedis = JedisUtils.getResource();
@@ -94,7 +94,7 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
             return;
         }
 
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = JedisUtils.getResource();
 
@@ -137,7 +137,7 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
     public Collection<Session> getActiveSessions(boolean includeLeave, Object principal, Session filterSession) {
         Set<Session> sessions = Sets.newHashSet();
 
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = JedisUtils.getResource();
             Map<String, String> map = jedis.hgetAll(sessionKeyPrefix);
@@ -235,12 +235,11 @@ public class JedisSessionDAO extends AbstractSessionDAO implements SessionDAO {
         }
 
         Session session = null;
-        Jedis jedis = null;
+        JedisCluster jedis = null;
         try {
             jedis = JedisUtils.getResource();
 //			if (jedis.exists(sessionKeyPrefix + sessionId)){
-            session = (Session) JedisUtils.toObject(jedis.get(
-                    JedisUtils.getBytesKey(sessionKeyPrefix + sessionId)));
+            session = (Session) JedisUtils.toObject(jedis.get(JedisUtils.getBytesKey(sessionKeyPrefix + sessionId)));
 //			}
             logger.debug("doReadSession {} {}", sessionId, request != null ? request.getRequestURI() : "");
         } catch (Exception e) {

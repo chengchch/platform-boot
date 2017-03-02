@@ -4,8 +4,8 @@
 
 package com.platform.modules.sys.service;
 
-import com.platform.modules.sys.bean.SysUser;
 import com.platform.framework.common.BaseService;
+import com.platform.modules.sys.bean.SysUser;
 
 import java.util.List;
 
@@ -56,4 +56,9 @@ public interface UserService extends BaseService<SysUser> {
      * @return List<SysUser>
      */
     List<SysUser> getUserByOfficeId(String officeId);
+
+    int updateStatus(String ids, SysUser user);
+
+    int initPassword(String ids, String password);
+
 }

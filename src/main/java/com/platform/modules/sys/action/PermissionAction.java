@@ -4,15 +4,15 @@
 
 package com.platform.modules.sys.action;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.platform.framework.common.BaseAction;
-import com.platform.framework.util.Collections3;
 import com.platform.framework.util.StringUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysPermission;
+import com.platform.modules.sys.bean.SysUser;
 import com.platform.modules.sys.service.PermissionService;
 import com.platform.modules.sys.utils.UserUtils;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,7 +70,14 @@ public class PermissionAction extends BaseAction<SysPermission> {
     @RequestMapping(value = {"list", ""})
     @RequiresPermissions("sys:permission:view")
     public String list(Model model, SysPermission object, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<SysPermission> sourcelist = UserUtils.getMenuList();
+        List<SysPermission> sourcelist;
+        SysUser user = UserUtils.getUser();
+        if (user.isAdmin()) {
+            SysPermission sysPermission = new SysPermission();
+            sourcelist = permissionService.getList(sysPermission);
+        } else {
+            sourcelist = permissionService.getByUserId(user.getId(), 1);
+        }
         List<SysPermission> list = Lists.newArrayList();
         Collections.sort(sourcelist, new Comparator<SysPermission>(){
             public int compare(SysPermission o1, SysPermission o2) {
