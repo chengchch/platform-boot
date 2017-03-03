@@ -1,35 +1,13 @@
 package com.platform.framework.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.support.http.StatViewServlet;
-import com.alibaba.druid.support.http.WebStatFilter;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.PlatformTransactionManager;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
 
 /**
- * @author lufengc
- * @date 2016/11/3
+ * @author fengcheng
+ * @version 2017/2/28
  */
-@Configuration
-@ConfigurationProperties(prefix="spring.datasource")
-public class DruidConfig {
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
+@ConfigurationProperties(prefix = "druid")
+public class DruidProperties {
     private String url;
     private String username;
     private String password;
@@ -52,7 +30,7 @@ public class DruidConfig {
     private String filters;
     private String connectionProperties;
     private String useGlobalDataSourceStat;
-    private StatView statView;
+    private DruidProperties.StatView statView;
 
     public String getUrl() {
         return url;
@@ -230,11 +208,11 @@ public class DruidConfig {
         this.useGlobalDataSourceStat = useGlobalDataSourceStat;
     }
 
-    public StatView getStatView() {
+    public DruidProperties.StatView getStatView() {
         return statView;
     }
 
-    public void setStatView(StatView statView) {
+    public void setStatView(DruidProperties.StatView statView) {
         this.statView = statView;
     }
 
@@ -275,77 +253,6 @@ public class DruidConfig {
         public void setLoginPassword(String loginPassword) {
             this.loginPassword = loginPassword;
         }
-    }
-
-    @Bean
-    @Primary
-    public DataSource dataSource() {
-        DruidDataSource datasource = new DruidDataSource();
-        datasource.setUrl(url);
-        datasource.setUsername(username);
-        datasource.setPassword(password);
-        datasource.setDriverClassName(driverClassName);
-
-        datasource.setInitialSize(initialSize);
-        datasource.setMinIdle(minIdle);
-        datasource.setMaxActive(maxActive);
-        datasource.setMaxWait(maxWait);
-        datasource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-        datasource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
-        datasource.setValidationQuery(validationQuery);
-        datasource.setTestWhileIdle(testWhileIdle);
-        datasource.setTestOnBorrow(testOnBorrow);
-        datasource.setTestOnReturn(testOnReturn);
-        datasource.setPoolPreparedStatements(poolPreparedStatements);
-        datasource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
-        try {
-            datasource.setFilters(filters);
-        } catch (SQLException e) {
-            logger.error("druid configuration initialization filter", e);
-        }
-        return datasource;
-    }
-
-    @Bean
-    public SqlSessionFactory sqlSessionFactory() throws Exception {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(dataSource());
-        return sqlSessionFactoryBean.getObject();
-    }
-
-    @Bean
-    public SqlSessionTemplate sqlSession() throws Exception {
-        return new SqlSessionTemplate(sqlSessionFactory());
-    }
-
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
-
-    @Bean
-    public ServletRegistrationBean druidServlet() {
-        ServletRegistrationBean reg = new ServletRegistrationBean();
-        reg.setServlet(new StatViewServlet());
-        reg.addUrlMappings("/druid/*");
-        reg.addInitParameter("allow", statView.allow);
-        reg.addInitParameter("deny",statView.deny);
-        reg.addInitParameter("loginUsername", statView.loginUsername);
-        reg.addInitParameter("loginPassword", statView.loginPassword);
-        return reg;
-    }
-
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new WebStatFilter());
-        filterRegistrationBean.addUrlPatterns("/*");
-        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
-        filterRegistrationBean.addInitParameter("sessionStatMaxCount","1000");
-        filterRegistrationBean.addInitParameter("sessionStatEnable","false");
-        filterRegistrationBean.addInitParameter("principalSessionName","userInfo");
-        filterRegistrationBean.addInitParameter("profileEnable","true");
-        return filterRegistrationBean;
     }
 
 }

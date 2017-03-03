@@ -1,44 +1,45 @@
+server:
+  port: 8888
+  address: localhost
 # log
 logging:
-    file: ./logs/platform.log
+    file: logs/platform.log
     level:
         root: info
         com.platform: info
 
-spring:
-    #JDBC Global Setting
-    datasource:
-        type: com.alibaba.druid.pool.DruidDataSource
-        driver-class-name: com.mysql.jdbc.Driver
-        url: jdbc:mysql://127.0.0.1:3306/platform?useUnicode=true&characterEncoding=utf-8
-        username: root
-        password: root
-        #DataSource Global Setting
-        initialSize: 1
-        minIdle: 1
-        maxActive: 20
-        maxWait: 60000
-        timeBetweenEvictionRunsMillis: 60000
-        minEvictableIdleTimeMillis: 300000
-        validationQuery: SELECT 1 FROM DUAL
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        removeAbandoned: true
-        removeAbandonedTimeout: 1800
-        logAbandoned: true
-        poolPreparedStatements: true
-        maxPoolPreparedStatementPerConnectionSize: 20
-        filters: stat
-        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-        useGlobalDataSourceStat: false
-        # druid StatVie
-        statView:
-            allow: 127.0.0.1
-            deny:
-            loginUsername: admin
-            loginPassword: admin
+druid:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/platform_cloud?useUnicode=true&characterEncoding=utf-8&useSSL=true
+    username: root
+    password: root
+    #DataSource Global Setting
+    initialSize: 1
+    minIdle: 1
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    removeAbandoned: true
+    removeAbandonedTimeout: 1800
+    logAbandoned: true
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    useGlobalDataSourceStat: false
+    # druid StatView
+    statView:
+        allow: 127.0.0.1
+        deny:
+        loginUsername: admin
+        loginPassword: admin
 
+spring:
     #mvc
     mvc:
         view:
@@ -59,6 +60,7 @@ spring:
             min-idle: 0
         cluster:
           max-redirects: 5
+          # nodes: localhost:6379
           nodes: 10.82.12.30:6379,10.82.12.30:6479,10.82.12.31:6379
 
 #dubbo
