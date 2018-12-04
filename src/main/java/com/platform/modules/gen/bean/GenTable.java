@@ -1,14 +1,13 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.gen.bean;
 
 import com.google.common.collect.Lists;
-import com.platform.modules.sys.bean.NoDbColumn;
 import com.platform.framework.common.BaseEntity;
 import com.platform.framework.util.StringUtils;
-import org.hibernate.validator.constraints.Length;
+import com.platform.modules.sys.bean.NoDbColumn;
 
 import java.util.List;
 

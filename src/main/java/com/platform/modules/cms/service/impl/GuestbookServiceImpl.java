@@ -1,18 +1,17 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.cms.service.impl;
 
-import com.platform.modules.cms.bean.CmsGuestbook;
-import com.platform.modules.cms.service.GuestbookService;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.MybatisDao;
 import com.platform.framework.util.Encodes;
+import com.platform.modules.cms.bean.CmsGuestbook;
+import com.platform.modules.cms.service.GuestbookService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 留言板service实现类

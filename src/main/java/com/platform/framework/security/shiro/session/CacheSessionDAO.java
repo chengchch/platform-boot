@@ -1,15 +1,15 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.framework.security.shiro.session;
 
+import com.google.common.collect.Sets;
 import com.platform.framework.common.Global;
 import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.util.DateUtils;
 import com.platform.framework.util.Servlets;
 import com.platform.framework.util.StringUtils;
-import com.google.common.collect.Sets;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;

@@ -1,14 +1,11 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.app.service;
 
 import com.platform.framework.common.BaseService;
 import com.platform.modules.sys.bean.SysUser;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * 用户service实现类

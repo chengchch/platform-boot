@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%--
-  ~ Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+  ~ Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
   --%>
 
 <html>

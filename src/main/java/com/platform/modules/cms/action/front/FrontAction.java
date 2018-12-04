@@ -1,17 +1,17 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.cms.action.front;
 
+import com.platform.framework.common.BaseFrontAction;
+import com.platform.framework.common.Page;
+import com.platform.framework.util.UserAgentUtils;
 import com.platform.modules.cms.bean.CmsArticle;
 import com.platform.modules.cms.bean.CmsArticleData;
 import com.platform.modules.cms.bean.CmsGuestbook;
 import com.platform.modules.cms.service.ArticleService;
 import com.platform.modules.cms.service.GuestbookService;
-import com.platform.framework.common.BaseFrontAction;
-import com.platform.framework.common.Page;
-import com.platform.framework.util.UserAgentUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

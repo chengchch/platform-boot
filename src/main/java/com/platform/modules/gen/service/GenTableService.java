@@ -1,12 +1,12 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.gen.service;
 
+import com.platform.framework.common.BaseService;
 import com.platform.modules.gen.bean.GenScheme;
 import com.platform.modules.gen.bean.GenTable;
-import com.platform.framework.common.BaseService;
 
 import java.util.List;
 

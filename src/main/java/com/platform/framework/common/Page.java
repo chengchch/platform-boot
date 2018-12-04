@@ -1,12 +1,12 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.framework.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.platform.framework.util.CookieUtils;
 import com.platform.framework.util.StringUtils;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,11 +1,11 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.framework.util;
 
-import com.platform.framework.common.SpringContextHolder;
 import com.google.common.collect.Lists;
+import com.platform.framework.common.SpringContextHolder;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

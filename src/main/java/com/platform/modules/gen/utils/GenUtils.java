@@ -1,16 +1,16 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.gen.utils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.platform.modules.gen.bean.*;
 import com.platform.framework.common.SysConfigManager;
 import com.platform.framework.mapper.JaxbMapper;
-import com.platform.modules.sys.utils.UserUtils;
 import com.platform.framework.util.*;
+import com.platform.modules.gen.bean.*;
+import com.platform.modules.sys.utils.UserUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;

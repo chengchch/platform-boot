@@ -1,14 +1,14 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.sys.bean;
 
+import com.google.common.collect.Lists;
 import com.platform.framework.cache.DataCached;
 import com.platform.framework.common.BaseEntity;
 import com.platform.framework.util.Collections3;
 import com.platform.framework.util.excel.ExcelField;
-import com.google.common.collect.Lists;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;

@@ -1,5 +1,5 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.cms.action;
@@ -7,23 +7,16 @@ package com.platform.modules.cms.action;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.platform.framework.common.BaseAction;
-import com.platform.framework.common.Page;
-import com.platform.framework.mapper.JsonMapper;
 import com.platform.modules.cms.bean.CmsArticle;
-import com.platform.modules.cms.bean.CmsArticleData;
 import com.platform.modules.cms.bean.CmsCategory;
 import com.platform.modules.cms.bean.CmsSite;
-import com.platform.modules.cms.service.ArticleService;
 import com.platform.modules.cms.service.CategoryService;
 import com.platform.modules.cms.service.FileTplService;
 import com.platform.modules.cms.service.SiteService;
-import com.platform.modules.cms.utils.CmsUtils;
 import com.platform.modules.cms.utils.TplUtils;
 import com.platform.modules.sys.bean.Param;
 import com.platform.modules.sys.bean.SysOffice;
-import com.platform.modules.sys.bean.SysPermission;
 import com.platform.modules.sys.service.OfficeService;
-import com.platform.modules.sys.utils.UserUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;

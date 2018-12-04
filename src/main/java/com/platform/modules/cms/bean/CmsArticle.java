@@ -1,13 +1,12 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.cms.bean;
 
 import com.google.common.collect.Lists;
-import com.platform.modules.sys.bean.NoDbColumn;
-import com.platform.modules.sys.bean.SysLog;
 import com.platform.framework.common.BaseEntity;
+import com.platform.modules.sys.bean.NoDbColumn;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;

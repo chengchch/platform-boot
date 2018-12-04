@@ -1,18 +1,18 @@
 /*
- * Copyright &copy; <a href="http://www.zsteel.cc">zsteel</a> All rights reserved.
+ * Copyright &copy; <a href="http://www.lufengc.cc">lufengc</a> All rights reserved.
  */
 
 package com.platform.modules.gen.service.impl;
 
-import com.platform.modules.gen.bean.*;
-import com.platform.modules.gen.service.GenTableService;
-import com.platform.modules.gen.utils.GenUtils;
 import com.platform.framework.common.BaseServiceImpl;
 import com.platform.framework.common.Global;
 import com.platform.framework.common.MybatisDao;
 import com.platform.framework.util.BeanToTable;
 import com.platform.framework.util.Encodes;
 import com.platform.framework.util.StringUtils;
+import com.platform.modules.gen.bean.*;
+import com.platform.modules.gen.service.GenTableService;
+import com.platform.modules.gen.utils.GenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
