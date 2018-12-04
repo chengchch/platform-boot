@@ -10,7 +10,6 @@ import com.platform.modules.app.service.SystemService;
 import com.platform.modules.sys.bean.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2016-01-15 09:53:27
  */
 @Service
-@Transactional(readOnly = true)
 public class SystemServiceImpl extends BaseServiceImpl<SysUser> implements SystemService {
 
     @Autowired
@@ -38,11 +36,12 @@ public class SystemServiceImpl extends BaseServiceImpl<SysUser> implements Syste
     }
 
 
-    @Transactional
-    public void register() throws Exception{
-        SysUser user = new SysUser();
-        user.setRealName("测试");
-        mybatisDao.insertBySql("INSERT INTO sys_user set username = \"111111\"");
-        throw new RuntimeException("Roll me back!");
-    }
+	@Override
+	@Transactional
+	public void register() throws Exception {
+		SysUser user = new SysUser();
+		user.setRealName("测试");
+		mybatisDao.insertBySql("INSERT INTO sys_user set username = \"111111\"");
+		int q = 1 / 0;
+	}
 }

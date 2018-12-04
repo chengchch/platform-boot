@@ -8,7 +8,6 @@
 	<packaging>jar</packaging>
 	<version>1.0.0</version>
 	<name>platform-boot</name>
-	<url>http://bdfint.com</url>
 
     <repositories>
         <repository>
